@@ -1,4 +1,9 @@
+# Data - don't deploy!
+data/
+guides/
+
+# Build outputs
 node_modules/
 .vercel/
-.env
-*.log
+site.tar.gz
+site.zip
