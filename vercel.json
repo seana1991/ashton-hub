@@ -1,8 +1,0 @@
-{
-  "name": "ashton-hub-fresh",
-  "outputDirectory": ".",
-  "framework": null,
-  "rewrites": [
-    {"source": "/(.*)", "destination": "/index.html"}
-  ]
-}
