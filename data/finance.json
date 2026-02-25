@@ -1,0 +1,35 @@
+{
+  "income": [
+    {"source": "David wage", "amount": 1826.77, "frequency": "monthly"},
+    {"source": "Sean wage", "amount": 2054.24, "frequency": "monthly"},
+    {"source": "PIP", "amount": 405.40, "frequency": "monthly"}
+  ],
+  "monthly_expenses": [
+    {"category": "Housing", "amount": 901.47, "description": "Mortgage"},
+    {"category": "Living Cost", "amount": 400.00, "description": "Food"},
+    {"category": "Personal", "amount": 300.00, "description": "Spend"},
+    {"category": "Housing", "amount": 146.00, "description": "Council Tax"},
+    {"category": "Utilities", "amount": 124.49, "description": "Octopus (Gas/Elec)"},
+    {"category": "Personal", "amount": 150.00, "description": "David personal"},
+    {"category": "Personal", "amount": 150.00, "description": "Sean personal"},
+    {"category": "Fuel", "amount": 150.00, "description": "David fuel"},
+    {"category": "Utilities", "amount": 42.99, "description": "EE Broadband"},
+    {"category": "Phone", "amount": 34.50, "description": "EE Phone plans"},
+    {"category": "Phone", "amount": 30.09, "description": "Sean phone payment"},
+    {"category": "Insurance", "amount": 30.29, "description": "Admiral insurance"},
+    {"category": "Phone", "amount": 29.98, "description": "Samsung phone"},
+    {"category": "Healthcare", "amount": 22.46, "description": "Denplan"},
+    {"category": "Subscription", "amount": 18.99, "description": "Google One"},
+    {"category": "Subscription", "amount": 16.99, "description": "Apple Music"},
+    {"category": "Other", "amount": 9.60, "description": "Go Cardless"},
+    {"category": "Subscription", "amount": 8.99, "description": "Amazon Prime"},
+    {"category": "Utilities", "amount": 54.00, "description": "Water"},
+    {"category": "Subscription", "amount": 4.99, "description": "Ring"},
+    {"category": "Subscription", "amount": 1.99, "description": "Google storage"}
+  ],
+  "yearly_totals": {
+    "income": 51436.92,
+    "expenses": 31533.84,
+    "net": 19903.08
+  }
+}

@@ -1,0 +1,12 @@
+# 🎂 Pete's Birthday Card
+
+## Status: Pending
+
+## Details
+- Need to order a card for Pete
+- His birthday is March 2nd
+- Order by: Feb 28th
+
+## Ideas
+- Horror-themed card (since Pete likes horror)
+- Or generic funny card

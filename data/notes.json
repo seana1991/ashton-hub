@@ -1,0 +1,7 @@
+{
+  "notes": [
+    {"id": 1, "title": "Welcome to Ashton Hub! 🦞", "content": "Your shared household hub. Check tasks, shopping, calendar and more!", "owner": "Clawbie", "created": "2026-02-24", "updated": "2026-02-25"},
+    {"id": 2, "title": "Quick Links", "content": "• Sean: 07984888450\n• David: 07849 657685\n• Address: 10 Centenary Way, Watton IP25 6XX", "owner": "Shared", "created": "2026-02-24", "updated": "2026-02-25"},
+    {"id": 3, "title": "Interview Tips", "content": "Remember: you've got this! 💪\n- Arrive 10 mins early\n- Bring ID\n- Smile and be yourself!", "owner": "Sean", "created": "2026-02-25", "updated": "2026-02-25"}
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "tasks": [
+    {"id": 1, "title": "Interview - Legal Executive", "due_date": "2026-02-25", "assigned_to": "Sean", "completed": false, "priority": "high"},
+    {"id": 2, "title": "Call Nan", "due_date": "2026-02-25", "assigned_to": "Sean", "completed": false, "priority": "medium"},
+    {"id": 3, "title": "Book holiday", "due_date": "2026-03-01", "assigned_to": "David", "completed": false, "priority": "high"},
+    {"id": 4, "title": "Pick up dry cleaning", "due_date": "2026-02-25", "assigned_to": "David", "completed": false, "priority": "low"},
+    {"id": 5, "title": "Buy groceries", "due_date": "2026-02-25", "assigned_to": "Both", "completed": false, "priority": "medium"},
+    {"id": 6, "title": "Pay bills", "due_date": "2026-02-28", "assigned_to": "Sean", "completed": false, "priority": "high"},
+    {"id": 7, "title": "Renew car insurance", "due_date": "2026-03-07", "assigned_to": "David", "completed": false, "priority": "high"}
+  ]
+}

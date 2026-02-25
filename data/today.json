@@ -1,0 +1,13 @@
+{
+  "date": "Wednesday, 25 Feb",
+  "weather": "☀️ 8°C Watton",
+  "events": [
+    {"time": "14:30", "title": "Sean's Interview - Legal Executive"}
+  ],
+  "week_ahead": [
+    {"day": "Thursday", "date": "26", "event": ""},
+    {"day": "Friday", "date": "27", "event": "Scream 7 🎬"},
+    {"day": "Saturday", "date": "28", "event": ""},
+    {"day": "Sunday", "date": "1", "event": "Book holiday 🏖️"}
+  ]
+}

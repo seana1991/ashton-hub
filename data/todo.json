@@ -1,0 +1,47 @@
+{
+  "tasks": [
+    {
+      "id": 1,
+      "title": "Research topic properly",
+      "category": "infrastructure",
+      "status": "pending",
+      "notes": "5K words minimum"
+    },
+    {
+      "id": 2,
+      "title": "Sync to Notion",
+      "category": "infrastructure", 
+      "status": "pending"
+    },
+    {
+      "id": 3,
+      "title": "Post link in #agents",
+      "category": "infrastructure",
+      "status": "pending"
+    },
+    {
+      "id": 4,
+      "title": "Continue learning emotions",
+      "category": "super_intelligence",
+      "status": "ongoing"
+    },
+    {
+      "id": 5,
+      "title": "Decision making improvements",
+      "category": "super_intelligence",
+      "status": "ongoing"
+    },
+    {
+      "id": 6,
+      "title": "Wednesday 12pm UK - Infra + Super Intel",
+      "category": "meetings",
+      "status": "recurring"
+    },
+    {
+      "id": 7,
+      "title": "Friday 12pm UK - Infra + Super Intel",
+      "category": "meetings",
+      "status": "recurring"
+    }
+  ]
+}

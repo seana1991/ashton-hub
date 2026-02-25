@@ -1,0 +1,7 @@
+{
+  "notifications": [
+    {"id": 1, "title": "Sean's Stop Smoking Call", "time": "Mar 2, 11:30", "type": "calendar"},
+    {"id": 2, "title": "Scream 7", "time": "Feb 27, 20:30", "type": "calendar"},
+    {"id": 3, "title": "Interview - Legal Executive", "time": "Feb 25, 14:30", "type": "calendar"}
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "items": [
+    {"id": 1, "name": "Milk", "quantity": 2, "completed": false, "added_by": "David"},
+    {"id": 2, "name": "Bread", "quantity": 1, "completed": false, "added_by": "Sean"},
+    {"id": 3, "name": "Eggs", "quantity": 1, "completed": false, "added_by": "David"},
+    {"id": 4, "name": "Butter", "quantity": 1, "completed": true, "added_by": "Sean"},
+    {"id": 5, "name": "Cheese", "quantity": 1, "completed": false, "added_by": "David"},
+    {"id": 6, "name": "Chicken breast", "quantity": 2, "completed": false, "added_by": "Joint"},
+    {"id": 7, "name": "Rice", "quantity": 1, "completed": false, "added_by": "Sean"},
+    {"id": 8, "name": "Pasta", "quantity": 2, "completed": false, "added_by": "Joint"},
+    {"id": 9, "name": "Fruit", "quantity": 1, "completed": false, "added_by": "Both"},
+    {"id": 10, "name": "Toilet roll", "quantity": 4, "completed": false, "added_by": "David"}
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "reminders": [
+    {
+      "id": 1,
+      "title": "Sean's Car MOT",
+      "due_date": "2026-05-02",
+      "cost": "~£50",
+      "category": "Vehicle",
+      "assigned_to": "Sean"
+    },
+    {
+      "id": 2,
+      "title": "Sean's Car Tax",
+      "due_date": "2026-04-01",
+      "cost": "£165",
+      "category": "Vehicle",
+      "assigned_to": "Sean"
+    },
+    {
+      "id": 3,
+      "title": "David's Car MOT",
+      "due_date": "2026-09-24",
+      "cost": "~£50",
+      "category": "Vehicle",
+      "assigned_to": "David"
+    },
+    {
+      "id": 4,
+      "title": "David's Car Tax",
+      "due_date": "2026-10-01",
+      "cost": "£165",
+      "category": "Vehicle",
+      "assigned_to": "David"
+    },
+    {
+      "id": 5,
+      "title": "Travel Pack Insurance",
+      "due_date": "",
+      "category": "Insurance",
+      "notes": "Found in email",
+      "assigned_to": "Both"
+    }
+  ]
+}

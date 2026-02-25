@@ -1,0 +1,1402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ashton Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        html, body { margin: 0; padding: 0; height: 100%; overflow-x: hidden; }
+        body { padding-bottom: 100px; }
+        :root { --bg-dark: #000000; }
+        /* Light Mode */
+        body.light-mode {
+            --bg-color: #f0f0f5;
+            --text-color: #1a1a2e;
+            --glass-bg: rgba(255, 255, 255, 0.4);
+            --glass-border: rgba(0, 0, 0, 0.1);
+        }
+        
+        body.light-mode .glass {
+            background: linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.5) 100%);
+            backdrop-filter: blur(25px) saturate(200%) brightness(102%);
+            -webkit-backdrop-filter: blur(25px) saturate(200%) brightness(102%);
+            border-top: 1px solid rgba(255,255,255,0.8);
+            border-left: 1px solid rgba(255,255,255,0.5);
+            border-right: 1px solid rgba(0,0,0,0.08);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.08);
+            color: #1a1a2e;
+        }
+        
+        body.light-mode h1,
+        body.light-mode h2,
+        body.light-mode h3,
+        body.light-mode h4,
+        body.light-mode div,
+        body.light-mode span {
+            color: #1a1a2e !important;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; 
+    background: url(background-dark.jpg) no-repeat center center fixed; 
+    background-size: cover; 
+    color: #fff; 
+    min-height: 100vh; 
+}
+        .container { padding-bottom: 80px;  max-width: 480px; margin: 0 auto; min-height: 100vh; padding-bottom: 120px; position: relative; }
+        /* Apple Liquid Glass Effect */
+        .glass { 
+            background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.06) 100%);
+            backdrop-filter: blur(25px) saturate(200%) brightness(108%);
+            -webkit-backdrop-filter: blur(25px) saturate(200%) brightness(108%);
+            border-top: 1px solid rgba(255,255,255,0.3);
+            border-left: 1px solid rgba(255,255,255,0.18);
+            border-right: 1px solid rgba(255,255,255,0.08);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            border-radius: 1rem; 
+            padding: 1rem; 
+            margin-bottom: 0.5rem; 
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+        }
+        .theme-toggle { display: flex; background: rgba(255,255,255,0.1); border-radius: 2rem; padding: 0.25rem; cursor: pointer; }
+        .theme-toggle span { padding: 0.4rem 0.75rem; border-radius: 1.5rem; font-size: 0.9rem; opacity: 0.6; transition: all 0.3s; }
+        .theme-toggle span.active { background: rgba(255,255,255,0.2); opacity: 1; }
+        .bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; display: flex; gap: 0.5rem; padding: 0.75rem 1.5rem; padding-bottom: max(0.75rem, env(safe-area-inset-bottom)); background: rgba(255,255,255,0.12); backdrop-filter: blur(25px) saturate(200%) brightness(108%);
+    -webkit-backdrop-filter: blur(25px) saturate(200%) brightness(108%); border-radius: 2rem; border-top: 1px solid rgba(255,255,255,0.25); border-left: 1px solid rgba(255,255,255,0.15); z-index: 9999; }
+        .nav-btn { background: transparent; border: none; color: rgba(255,255,255,0.6); font-size: 1.5rem; cursor: pointer; padding: 0.5rem; border-radius: 50%; transition: all 0.3s; }
+        .nav-btn:hover, .nav-btn.active { background: rgba(255,255,255,0.2); color: #fff; }
+        .view { display: none; padding: 0.5rem; }
+        .view.active { display: block; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="view-home" class="view active">
+            <div style="padding-top: 3rem; text-align: center; margin-bottom: 1rem; position: relative;">
+                <div style="position: absolute; top: 0.5rem; left: 0; cursor: pointer;" onclick="toggleTheme()"><div class="theme-toggle"><span class="active">🌙</span><span>☀️</span></div></div>
+                <div style="position: absolute; top: 0.5rem; right: 0; width: 44px; height: 44px; background: rgba(255,255,255,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer;" onclick="switchView('profile')">👤</div>
+                <h1 style="font-size: 2.5rem; margin: 1rem 0 0.5rem;">Hey Sean</h1>
+                <p id="current-date" style="opacity: 0.6;"></p>
+                <div style="display: inline-flex; gap: 0.5rem; margin-top: 0.5rem; background: rgba(255,255,255,0.1); padding: 0.5rem 1rem; border-radius: 20px; cursor:pointer;" onclick="switchView('weather')"><span>☀️</span><span>12°C</span><span style="opacity: 0.7;">Watton</span></div>
+            </div>
+            <h3 style="margin: 1rem 0 0.5rem; font-size: 1.1rem;">What's on today</h3>
+            <div class="glass" style="min-height: 100px; display: flex; align-items: center; gap: 1rem;">
+                <div style="text-align: center; min-width: 50px;"><div style="opacity: 0.6; font-size: 0.8rem;">TUE</div><div style="font-size: 2rem; font-weight: 700;">24</div></div>
+                <div style="flex: 1; border-left: 1px solid rgba(255,255,255,0.2); padding-left: 1rem;"><div style="font-weight: 500;">No events today</div><div style="opacity: 0.6; font-size: 0.9rem;">Free day ✨</div></div>
+            </div>
+            <h3 style="margin: 1rem 0 0.5rem; font-size: 1.1rem;">Your week ahead</h3>
+            <div class="glass" style="display: flex; justify-content: space-between; align-items: center;"><span>📅 Team Meeting - Wed 25</span><span style="opacity: 0.6;">→</span></div>
+            <div class="glass" style="display: flex; justify-content: space-between; align-items: center;"><span>🍕 Dinner with David - Thu 26</span><span style="opacity: 0.6;">→</span></div>
+            <div class="glass" style="display: flex; justify-content: space-between; align-items: center;"><span>💰 Pay bills - Fri 27</span><span style="opacity: 0.6;">→</span></div>
+            <div class="glass" style="display: flex; justify-content: space-between; align-items: center;"><span>🎂 Birthday - Sat 28</span><span style="opacity: 0.6;">→</span></div>
+            <h3 style="margin: 1rem 0 0.5rem; font-size: 1.1rem;">Notifications</h3>
+            <div class="glass" style="display: flex; justify-content: space-between;"><span>🔔 No new notifications</span><span style="opacity: 0.6;">→</span></div>
+            <div class="glass" style="display: flex; justify-content: space-between;"><span>📧 0 unread emails</span><span style="opacity: 0.6;">→</span></div>
+            <div class="glass" style="display: flex; justify-content: space-between;"><span>📅 No calendar alerts</span><span style="opacity: 0.6;">→</span></div>
+            <div class="glass" style="display: flex; justify-content: space-between;"><span>⏰ No reminders</span><span style="opacity: 0.6;">→</span></div>
+        </div>
+        <div id="view-sean-david" class="view">
+            <div style="padding-top: 3rem; position: relative; margin-bottom: 1rem;">
+                <div style="position: absolute; top: 0.5rem; left: 0; cursor: pointer;" onclick="toggleTheme()"><div class="theme-toggle"><span class="active">🌙</span><span>☀️</span></div></div>
+                <div style="position: absolute; top: 0.5rem; right: 0; width: 44px; height: 44px; background: rgba(255,255,255,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer;" onclick="switchView('profile')">👤</div>
+                <div class="glass" style="margin-top: 3rem; min-height: 80px; text-align: center; opacity: 0.7;"><div style="font-weight: 600;">Sean & David Snapshot</div></div>
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; margin-top: 1rem;">
+                    <div class="glass" style="text-align: center; padding: 0.75rem;cursor:pointer;" onclick="switchView('calendar')"><img src="icons/calendar.svg" width="32" height="32"></div>
+                    <div class="glass" style="text-align: center; padding: 0.75rem;cursor:pointer;" onclick="switchView('contacts')"><img src="icons/contacts.svg" width="32" height="32"></div>
+                    <div class="glass" style="text-align: center; padding: 0.75rem;cursor:pointer;" onclick="switchView('finance')"><img src="icons/finance.svg" width="32" height="32"></div>
+                    <div class="glass" style="text-align: center; padding: 0.75rem;cursor:pointer;" onclick="switchView('todo')"><img src="icons/todo.svg" width="32" height="32"></div>
+                    <div class="glass" style="text-align: center; padding: 0.75rem;cursor:pointer;" onclick="switchView('shopping')"><img src="icons/shopping.svg" width="32" height="32"></div>
+                    <div class="glass" style="text-align: center; padding: 0.75rem;cursor:pointer;" onclick="switchView('reminders')"><img src="icons/reminders.svg" width="32" height="32"></div>
+                    <div class="glass" style="text-align: center; padding: 0.75rem;cursor:pointer;" onclick="switchView('notes')"><img src="icons/notes.svg" width="32" height="32"></div>
+                    <div class="glass" style="text-align: center; padding: 0.75rem;cursor:pointer;" onclick="switchView('files')"><img src="icons/files.svg" width="32" height="32"></div>
+                </div>
+            </div>
+        </div>
+        <div id="view-team" class="view">
+            <div style="padding-top: 3rem; position: relative; margin-bottom: 1rem;">
+                <span style="cursor:pointer; font-size:1.5rem;" onclick="switchView('home')">←</span>
+                <h2 style="text-align:center; font-size:1.1rem; margin:0;">Team</h2>
+                <span style="float:right;cursor:pointer;" onclick="toggleTheme()">🌙</span>
+            </div>
+            
+            <!-- Agent Status Boxes - 2x2 Grid -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 1rem;">
+                <!-- Clawbie -->
+                <div style="background: rgba(255,255,255,0.08); border-radius: 0.75rem; padding: 1rem; cursor: pointer;" onclick="switchView('team-chat')">
+                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                        <div style="font-size: 2rem;">🦞</div>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600; font-size: 0.95rem;">Clawbie</div>
+                            <div style="display: flex; align-items: center; gap: 0.25rem;">
+                                <span style="width: 8px; height: 8px; background: #22C55E; border-radius: 50%;"></span>
+                                <span style="font-size: 0.75rem; opacity: 0.6;">Online</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tiffany -->
+                <div style="background: rgba(255,255,255,0.08); border-radius: 0.75rem; padding: 1rem; cursor: pointer;" onclick="switchView('team-chat')">
+                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                        <div style="font-size: 2rem;">💅</div>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600; font-size: 0.95rem;">Tiffany</div>
+                            <div style="display: flex; align-items: center; gap: 0.25rem;">
+                                <span style="width: 8px; height: 8px; background: #22C55E; border-radius: 50%;"></span>
+                                <span style="font-size: 0.75rem; opacity: 0.6;">Online</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Chucky -->
+                <div style="background: rgba(255,255,255,0.08); border-radius: 0.75rem; padding: 1rem; cursor: pointer;" onclick="switchView('team-chat')">
+                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                        <div style="font-size: 2rem;">🔪</div>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600; font-size: 0.95rem;">Chucky</div>
+                            <div style="display: flex; align-items: center; gap: 0.25rem;">
+                                <span style="width: 8px; height: 8px; background: #EF4444; border-radius: 50%;"></span>
+                                <span style="font-size: 0.75rem; opacity: 0.6;">Busy</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Glenda -->
+                <div style="background: rgba(255,255,255,0.08); border-radius: 0.75rem; padding: 1rem; cursor: pointer;" onclick="switchView('team-chat')">
+                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                        <div style="font-size: 2rem;">👻</div>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600; font-size: 0.95rem;">Glenda</div>
+                            <div style="display: flex; align-items: center; gap: 0.25rem;">
+                                <span style="width: 8px; height: 8px; background: #22C55E; border-radius: 50%;"></span>
+                                <span style="font-size: 0.75rem; opacity: 0.6;">Online</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bottom Section: Chat + Apps -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                <!-- Chat (iMessage style) -->
+                <div style="background: rgba(255,255,255,0.08); border-radius: 0.75rem; padding: 0.75rem; max-height: 200px; display: flex; flex-direction: column;">
+                    <div style="font-size: 0.7rem; opacity: 0.5; text-transform: uppercase; margin-bottom: 0.5rem;">💬 Chat</div>
+                    <div id="team-messages" style="flex: 1; overflow-y: auto; margin-bottom: 0.5rem;">
+                        <div style="margin-bottom: 0.5rem;">
+                            <div style="display:flex; align-items:center; gap: 0.25rem; margin-bottom: 0.15rem;">
+                                <span>🦞</span><span style="font-size: 0.7rem; font-weight: 600;">Clawbie</span>
+                            </div>
+                            <div style="background: rgba(59, 130, 246, 0.3); padding: 0.4rem 0.6rem; border-radius: 0.75rem; border-top-left-radius: 0.25rem; font-size: 0.75rem;">Team, let's get this done! 💪</div>
+                        </div>
+                        <div style="margin-bottom: 0.5rem;">
+                            <div style="display:flex; align-items:center; gap: 0.25rem; margin-bottom: 0.15rem;">
+                                <span>💅</span><span style="font-size: 0.7rem; font-weight: 600;">Tiffany</span>
+                            </div>
+                            <div style="background: rgba(167, 139, 250, 0.3); padding: 0.4rem 0.6rem; border-radius: 0.75rem; border-top-left-radius: 0.25rem; font-size: 0.75rem;">On it! ✨</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 0.25rem;">
+                        <input type="text" id="team-chat-input" placeholder="Type..." style="flex: 1; padding: 0.4rem 0.6rem; border-radius: 1rem; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.08); color: white; font-size: 0.75rem; outline: none;">
+                        <button onclick="sendTeamMessage()" style="padding: 0.4rem 0.6rem; border-radius: 1rem; border: none; background: rgba(167, 139, 250, 0.4); color: white; cursor: pointer; font-size: 0.7rem;">Send</button>
+                    </div>
+                </div>
+                
+                <!-- Apps -->
+                <div style="background: rgba(255,255,255,0.08); border-radius: 0.75rem; padding: 0.75rem;">
+                    <div style="font-size: 0.7rem; opacity: 0.5; text-transform: uppercase; margin-bottom: 0.5rem;">📎 Apps</div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                        <div style="background: rgba(255,255,255,0.1); border-radius: 0.5rem; padding: 0.5rem; text-align: center; cursor: pointer;" onclick="switchView('tasks')">
+                            <div style="font-size: 1.25rem;">✅</div>
+                            <div style="font-size: 0.7rem;">Tasks</div>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.1); border-radius: 0.5rem; padding: 0.5rem; text-align: center; cursor: pointer;" onclick="switchView('calendar')">
+                            <div style="font-size: 1.25rem;">📅</div>
+                            <div style="font-size: 0.7rem;">Schedule</div>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.1); border-radius: 0.5rem; padding: 0.5rem; text-align: center; cursor: pointer;" onclick="switchView('automation')">
+                            <div style="font-size: 1.25rem;">⚙️</div>
+                            <div style="font-size: 0.7rem;">Automations</div>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.1); border-radius: 0.5rem; padding: 0.5rem; text-align: center; cursor: pointer;">
+                            <div style="font-size: 1.25rem;">📂</div>
+                            <div style="font-size: 0.7rem;">Files</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-calendar" class="view"><div id="view-calendar" class="view">
+            <div style="padding-top: 3rem; position: relative; margin-bottom: 1rem;">
+                <span style="cursor:pointer; font-size:1.5rem;" onclick="switchView('sean-david')">←</span>
+                <span style="float:right;" onclick="toggleTheme()"><span class="active">🌙</span></span>
+                <h2 style="text-align:center; font-size:1.3rem;">Calendar</h2>
+            </div>
+            <div class="glass" style="padding: 1rem;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+                    <span style="font-size:1.25rem;cursor:pointer;opacity:0.7;">◀</span>
+                    <span id="current-month" style="font-weight:600;font-size:1.1rem;">February 2026</span>
+                    <span style="font-size:1.25rem;cursor:pointer;opacity:0.7;">▶</span>
+                </div>
+                <div style="display:grid; grid-template-columns:repeat(7,1fr); text-align:center; gap:0.25rem; margin-bottom:0.5rem;">
+                    <div style="opacity:0.4;font-size:0.7rem;font-weight:500;">S</div><div style="opacity:0.4;font-size:0.7rem;font-weight:500;">M</div><div style="opacity:0.4;font-size:0.7rem;font-weight:500;">T</div><div style="opacity:0.4;font-size:0.7rem;font-weight:500;">W</div><div style="opacity:0.4;font-size:0.7rem;font-weight:500;">T</div><div style="opacity:0.4;font-size:0.7rem;font-weight:500;">F</div><div style="opacity:0.4;font-size:0.7rem;font-weight:500;">S</div>
+                    <div style="opacity:0.2;font-size:0.85rem;">30</div><div style="opacity:0.2;font-size:0.85rem;">31</div><div style="font-size:0.85rem;">1</div><div style="font-size:0.85rem;">2</div><div style="font-size:0.85rem;">3</div><div style="font-size:0.85rem;">4</div><div style="font-size:0.85rem;">5</div>
+                    <div style="font-size:0.85rem;">6</div><div style="font-size:0.85rem;">7</div><div style="font-size:0.85rem;">8</div><div style="font-size:0.85rem;">9</div><div style="font-size:0.85rem;">10</div><div style="font-size:0.85rem;">11</div><div style="font-size:0.85rem;">12</div>
+                    <div style="font-size:0.85rem;">13</div><div style="font-size:0.85rem;">14</div><div style="font-size:0.85rem;">15</div><div style="font-size:0.85rem;">16</div><div style="font-size:0.85rem;">17</div><div style="font-size:0.85rem;">18</div><div style="font-size:0.85rem;">19</div>
+                    <div style="font-size:0.85rem;">20</div><div style="font-size:0.85rem;">21</div><div style="font-size:0.85rem;">22</div><div style="font-size:0.85rem;">23</div><div style="background:#3B82F6;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;margin:0 auto;">24</div><div style="font-size:0.85rem;">25</div><div style="font-size:0.85rem;">26</div>
+                    <div style="font-size:0.85rem;">27</div><div style="font-size:0.85rem;">28</div><div style="font-size:0.85rem;">1</div><div style="font-size:0.85rem;">2</div><div style="font-size:0.85rem;">3</div><div style="font-size:0.85rem;">4</div><div style="font-size:0.85rem;">5</div>
+                </div>
+            </div>
+            <div class="apple-section-header">Tuesday, February 24</div>
+            <div id="calendar-events">
+                <div class="glass" style="padding: 0.75rem 1rem; display: flex; align-items: center;">
+                    <div style="width: 4px; height: 36px; background: #3B82F6; border-radius: 2px; margin-right: 0.75rem;"></div>
+                    <div style="flex: 1;"><div style="font-weight: 600; font-size: 0.95rem;">Team Meeting</div><div style="opacity: 0.6; font-size: 0.8rem;">10:00 AM · 30 min</div></div>
+                </div>
+                <div class="glass" style="padding: 0.75rem 1rem; display: flex; align-items: center; margin-top: 0.5rem;">
+                    <div style="width: 4px; height: 36px; background: #22C55E; border-radius: 2px; margin-right: 0.75rem;"></div>
+                    <div style="flex: 1;"><div style="font-weight: 600; font-size: 0.95rem;">Lunch with David</div><div style="opacity: 0.6; font-size: 0.8rem;">1:00 PM · 1 hour</div></div>
+                </div>
+            </div>
+        </div>
+        <div id="view-finance" class="view">
+            <div style="padding-top: 3rem; position: relative; margin-bottom: 1rem;">
+                <span style="cursor:pointer; font-size:1.5rem;" onclick="switchView('sean-david')">←</span>
+                <span style="float:right;" onclick="toggleTheme()"><span class="active">🌙</span></span>
+                <h2 style="text-align:center; font-size:1.3rem;">Finance</h2>
+            </div>
+            <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:0.5rem; margin-bottom:1rem;">
+                <div class="glass" style="text-align:center;padding:0.75rem;"><div style="font-size:0.7rem;opacity:0.6;">INCOME</div><div id="finance-income" style="color:#22C55E;font-weight:700;">£5000</div></div>
+                <div class="glass" style="text-align:center;padding:0.75rem;"><div style="font-size:0.7rem;opacity:0.6;">OUT</div><div id="finance-outgoing" style="color:#EF4444;font-weight:700;">£2500</div></div>
+                <div class="glass" style="text-align:center;padding:0.75rem;"><div style="font-size:0.7rem;opacity:0.6;">LEFT</div><div id="finance-remaining" style="color:#3B82F6;font-weight:700;">£2500</div></div>
+            </div>
+            <div style="display:flex; justify-content:center; gap:0.5rem; margin-bottom:1rem;">
+                <div class="glass" style="padding:0.5rem 1rem;background:rgba(59,130,246,0.3);">Monthly</div>
+                <div class="glass" style="padding:0.5rem 1rem;opacity:0.5;">Yearly</div>
+            </div>
+            <h4 style="opacity:0.6;font-size:0.85rem;margin:0.5rem 0;">INCOME</h4>
+            <div class="glass" style="display:flex;justify-content:space-between;"><span>💰 Salary</span><span>£4000</span></div>
+            <div class="glass" style="display:flex;justify-content:space-between;"><span>💰 Other</span><span>£1000</span></div>
+            <h4 style="opacity:0.6;font-size:0.85rem;margin:1rem 0 0.5rem;">OUTGOINGS</h4>
+            <div class="glass" style="display:flex;justify-content:space-between;"><span>🛒 Food</span><span>£400</span></div>
+            <div class="glass" style="display:flex;justify-content:space-between;"><span>👤 Personal</span><span>£300</span></div>
+            <div class="glass" style="display:flex;justify-content:space-between;"><span>🚗 Fuel</span><span>£150</span></div>
+        </div>
+        <div id="view-contacts" class="view">
+            <div style="padding-top: 3rem; position: relative; margin-bottom: 1rem;">
+                <span style="cursor:pointer; font-size:1.5rem;" onclick="switchView('sean-david')">←</span>
+                <span style="float:right;" onclick="toggleTheme()"><span class="active">🌙</span></span>
+                <h2 style="text-align:center; font-size:1.3rem;">Contacts</h2>
+            </div>
+            <div style="display:flex; justify-content:center; gap:0.5rem; margin-bottom:1rem;">
+                <div class="glass" style="padding:0.5rem 1rem;background:rgba(59,130,246,0.3);">Person</div>
+                <div class="glass" style="padding:0.5rem 1rem;opacity:0.5;">Household</div>
+            </div>
+            <div class="glass" style="opacity:0.6;margin-bottom:0.5rem;">🔍 Search</div>
+            <h4 style="opacity:0.5;font-size:0.75rem;margin:0.5rem 0;">A</h4>
+            <div id="contacts-list"><div class="glass">Adam Smith</div></div>
+            <div class="glass">Alex Johnson</div>
+            <h4 style="opacity:0.5;font-size:0.75rem;margin:0.5rem 0;">B</h4>
+            <div class="glass">Bob Williams</div>
+        </div>
+        <div id="view-todo" class="view">
+            <div style="padding-top: 3rem; position: relative; margin-bottom: 1rem;">
+                <span style="cursor:pointer; font-size:1.5rem;" onclick="switchView('sean-david')">←</span>
+                <span style="float:right;" onclick="toggleTheme()"><span class="active">🌙</span></span>
+                <h2 style="text-align:center; font-size:1.3rem;">To-Do</h2>
+            </div>
+            <div style="display:flex; justify-content:center; gap:0.5rem; margin-bottom:1rem;">
+                <div class="glass" style="padding:0.5rem 1rem;background:rgba(59,130,246,0.3);">All</div>
+                <div class="glass" style="padding:0.5rem 1rem;opacity:0.5;">Sean</div>
+                <div class="glass" style="padding:0.5rem 1rem;opacity:0.5;">David</div>
+            </div>
+            <div id="todo-list"><div class="glass" style="display:flex;align-items:center;gap:0.5rem;"><div style="width:20px;height:20px;border:2px solid rgba(255,255,255,0.5);border-radius:50%;"></div><span style="flex:1;">Buy milk</span><span>👤</span></div></div>
+            <div class="glass" style="display:flex;align-items:center;gap:0.5rem;"><div style="width:20px;height:20px;border:2px solid rgba(255,255,255,0.5);border-radius:50%;"></div><span style="flex:1;">Call plumber</span><span>👤</span></div>
+            <div class="glass" style="display:flex;align-items:center;gap:0.5rem;opacity:0.5;"><div style="width:20px;height:20px;background:#22C55E;border-radius:50%;">✓</div><span style="flex:1;text-decoration:line-through;">Done task</span><span>👤</span></div>
+            <div style="text-align:center;margin-top:1rem;"><div class="glass" style="display:inline-flex;width:50px;height:50px;border-radius:50%;align-items:center;justify-content:center;font-size:1.5rem;">+</div></div>
+        </div>
+        <div id="view-shopping" class="view">
+            <div style="padding-top: 3rem; position: relative; margin-bottom: 1rem;">
+                <span style="cursor:pointer; font-size:1.5rem;" onclick="switchView('sean-david')">←</span>
+                <span style="float:right;" onclick="toggleTheme()"><span class="active">🌙</span></span>
+                <h2 style="text-align:center; font-size:1.3rem;">Shopping</h2>
+            </div>
+            <div class="glass" style="opacity:0.6;margin-bottom:1rem;">🔍 Search</div>
+            <div class="glass" style="margin-bottom:1rem;">+ Add item</div>
+            <h4 style="opacity:0.6;font-size:0.85rem;margin:0.5rem 0;">ACTIVE</h4>
+            <div id="shopping-list"><div class="glass" style="display:flex;align-items:center;gap:0.5rem;"><div style="width:20px;height:20px;border:2px solid rgba(255,255,255,0.5);border-radius:4px;"></div><span>Milk</span></div></div>
+            <div class="glass" style="display:flex;align-items:center;gap:0.5rem;"><div style="width:20px;height:20px;border:2px solid rgba(255,255,255,0.5);border-radius:4px;"></div><span>Bread</span></div>
+            <h4 style="opacity:0.6;font-size:0.85rem;margin:1rem 0 0.5rem;">COMPLETED</h4>
+            <div class="glass" style="display:flex;align-items:center;gap:0.5rem;opacity:0.5;"><div style="width:20px;height:20px;background:#22C55E;border-radius:4px;">✓</div><span style="text-decoration:line-through;">Eggs</span></div>
+        </div>
+        <div id="view-reminders" class="view">
+            <div style="padding-top: 3rem; position: relative; margin-bottom: 1rem;">
+                <span style="cursor:pointer; font-size:1.5rem;" onclick="switchView('sean-david')">←</span>
+                <span style="float:right;" onclick="toggleTheme()"><span class="active">🌙</span></span>
+                <h2 style="text-align:center; font-size:1.3rem;">Reminders</h2>
+            </div>
+            <div style="display:flex; justify-content:center; gap:0.5rem; margin-bottom:1rem;">
+                <div class="glass" style="padding:0.5rem 1rem;background:rgba(59,130,246,0.3);">All</div>
+                <div class="glass" style="padding:0.5rem 1rem;opacity:0.5;">Today</div>
+                <div class="glass" style="padding:0.5rem 1rem;opacity:0.5;">Upcoming</div>
+            </div>
+            <div id="reminders-list"><div class="glass" style="display:flex;align-items:center;gap:0.5rem;"><span>🔔</span><span style="flex:1;">Pick up dry cleaning</span><span style="opacity:0.6;font-size:0.75rem;">Today 5PM</span></div></div>
+            <div class="glass" style="display:flex;align-items:center;gap:0.5rem;"><span>🔔</span><span style="flex:1;">Pay bills</span><span style="opacity:0.6;font-size:0.75rem;">Tomorrow</span></div>
+            <div style="text-align:center;margin-top:1rem;"><div class="glass" style="display:inline-flex;width:50px;height:50px;border-radius:50%;align-items:center;justify-content:center;font-size:1.5rem;">+</div></div>
+        </div>
+        <div id="view-weather" class="view">
+            <div style="padding-top: 3rem; position: relative; margin-bottom: 1rem;">
+                <span style="cursor:pointer; font-size:1.5rem;" onclick="switchView('home')">←</span>
+                <span style="float:right;" onclick="toggleTheme()"><span class="active">🌙</span></span>
+                <h2 style="text-align:center; font-size:1.3rem;">Weather</h2>
+            </div>
+            <div class="glass" style="text-align:center;padding:2rem;"><div style="font-size:4rem;">☀️</div><div style="font-size:3rem;font-weight:700;">12°C</div><div style="opacity:0.7;">Watton, UK</div></div>
+            <h4 style="opacity:0.6;font-size:0.85rem;margin:1rem 0 0.5rem;">HOURLY</h4>
+            <div style="display:flex;gap:0.5rem;overflow-x:auto;">
+                <div class="glass" style="min-width:60px;text-align:center;"><div>Now</div><div style="font-size:1.5rem;">☀️</div><div>12°</div></div>
+                <div class="glass" style="min-width:60px;text-align:center;"><div>1PM</div><div style="font-size:1.5rem;">⛅</div><div>13°</div></div>
+                <div class="glass" style="min-width:60px;text-align:center;"><div>2PM</div><div style="font-size:1.5rem;">☀️</div><div>14°</div></div>
+            </div>
+            <h4 style="opacity:0.6;font-size:0.85rem;margin:1rem 0 0.5rem;">7-DAY</h4>
+            <div class="glass" style="display:flex;justify-content:space-between;align-items:center;"><span>Wed</span><span>☀️</span><span>14°/8°</span></div>
+            <div class="glass" style="display:flex;justify-content:space-between;align-items:center;"><span>Thu</span><span>🌧️</span><span>12°/6°</span></div>
+            <div class="glass" style="display:flex;justify-content:space-between;align-items:center;"><span>Fri</span><span>⛅</span><span>13°/7°</span></div>
+        </div>
+        <div id="view-settings" class="view">
+            <div style="padding-top: 3rem; position: relative; margin-bottom: 1rem;">
+                <span style="cursor:pointer; font-size:1.5rem;" onclick="switchView('sean-david')">←</span>
+                <span style="float:right;" onclick="toggleTheme()"><span class="active">🌙</span></span>
+                <h2 style="text-align:center; font-size:1.3rem;">Settings</h2>
+            </div>
+            <div class="glass" style="display:flex;justify-content:space-between;"><span>🔔 Notifications</span><span style="opacity:0.5;">→</span></div>
+            <div class="glass" style="display:flex;justify-content:space-between;"><span>🌙 Dark Mode</span><span style="opacity:0.5;">On</span></div>
+            <div class="glass" style="display:flex;justify-content:space-between;"><span>🔒 Privacy</span><span style="opacity:0.5;">→</span></div>
+            <div class="glass" style="display:flex;justify-content:space-between;"><span>ℹ️ About</span><span style="opacity:0.5;">v1.0</span></div>
+        </div>
+        <div id="view-notes" class="view">
+            <div style="padding-top: 3rem; position: relative; margin-bottom: 1rem;">
+                <span style="cursor:pointer; font-size:1.5rem;" onclick="switchView('sean-david')">←</span>
+                <span style="float:right;" onclick="toggleTheme()"><span class="active">🌙</span></span>
+                <h2 style="text-align:center; font-size:1.3rem;">Notes</h2>
+            </div>
+            <div class="glass" style="opacity:0.6;margin-bottom:1rem;">🔍 Search notes...</div>
+            <div class="glass" style="margin-bottom:0.5rem;"><div style="font-weight:600;">Shopping List</div><div style="opacity:0.6;font-size:0.85rem;">Milk, Bread, Eggs, Fruit, Toilet roll...</div></div>
+            <div class="glass" style="margin-bottom:0.5rem;"><div style="font-weight:600;">Ideas</div><div style="opacity:0.6;font-size:0.85rem;">App ideas, projects...</div></div>
+            <div style="text-align:center;margin-top:1rem;"><div class="glass" style="display:inline-flex;width:50px;height:50px;border-radius:50%;align-items:center;justify-content:center;font-size:1.5rem;">+</div></div>
+        </div>
+        <div id="view-team-chat" class="view">
+            <div style="padding-top: 3rem; position: relative; margin-bottom: 1rem;">
+                <span style="cursor:pointer; font-size:1.5rem;" onclick="switchView('team')">←</span>
+                <span style="float:right;" onclick="toggleTheme()"><span class="active">🌙</span></span>
+                <h2 style="text-align:center; font-size:1.3rem;">Team Chat</h2>
+            </div>
+            <div style="max-height:50vh;overflow-y:auto;padding:0.5rem;">
+                <div style="background:rgba(255,255,255,0.1);padding:0.75rem;border-radius:1rem;margin-bottom:0.5rem;max-width:80%;"><div style="font-size:0.7rem;opacity:0.6;">👤 Sean</div><div>Hey team! How are we today?</div></div>
+                <div style="background:rgba(59,130,246,0.2);padding:0.75rem;border-radius:1rem;margin-bottom:0.5rem;max-width:80%;margin-left:auto;"><div style="font-size:0.7rem;opacity:0.6;">💬 Tiffany</div><div>Hey Sean! All good here 💅</div></div>
+                <div style="background:rgba(255,255,255,0.1);padding:0.75rem;border-radius:1rem;margin-bottom:0.5rem;max-width:80%;"><div style="font-size:0.7rem;opacity:0.6;">🦞 Clawbie</div><div>Tasks looking good!</div></div>
+            </div>
+            <div style="position:fixed;bottom:80px;left:0.5rem;right:0.5rem;display:flex;gap:0.5rem;">
+                <div class="glass" style="flex:1;padding:0.75rem;opacity:0.6;">Type a message...</div>
+                <div class="glass" style="padding:0.75rem;">➤</div>
+            </div>
+        </div>
+        <div id="view-automation" class="view">
+            <div style="padding-top: 3rem; position: relative; margin-bottom: 1rem;">
+                <span style="cursor:pointer; font-size:1.5rem;" onclick="switchView('team')">←</span>
+                <span style="float:right;" onclick="toggleTheme()"><span class="active">🌙</span></span>
+                <h2 style="text-align:center; font-size:1.3rem;">Automation</h2>
+        
+        <div id="view-profile" class="view">
+            <div style="padding-top: 3rem; position: relative; margin-bottom: 1rem;">
+                <span style="cursor:pointer; font-size:1.5rem;" onclick="switchView('home')">←</span>
+                <h2 style="text-align:center; font-size:1.1rem; margin:0;">Apple Account</h2>
+                <span style="float:right;cursor:pointer;" onclick="toggleTheme()">🌙</span>
+            </div>
+            
+            <!-- Large Profile Header -->
+            <div style="text-align:center; padding: 1rem 0 1.5rem;">
+                <div style="width: 100px; height: 100px; background: linear-gradient(135deg, #3B82F6, #1D4ED8); border-radius: 50%; margin: 0 auto 0.75rem; display: flex; align-items: center; justify-content: center; font-size: 3rem;">👤</div>
+                <div style="font-weight: 600; font-size: 1.5rem;">Sean Ashton</div>
+                <div style="opacity: 0.5; font-size: 0.85rem;">seanedwardashton@hotmail.com</div>
+            </div>
+            
+            <!-- Contact Info -->
+            <div style="background: rgba(255,255,255,0.08); border-radius: 0.75rem; margin-bottom: 1.5rem;">
+                <div style="padding: 0.75rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.08);">
+                    <span style="opacity: 0.5; font-size: 0.75rem; text-transform: uppercase;">Contact</span>
+                </div>
+                <a href="tel:07984888450" style="display:flex; align-items:center; padding: 0.75rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.08); text-decoration: none; color: inherit;">
+                    <span style="font-size: 1.25rem; margin-right: 0.75rem;">📱</span>
+                    <span style="flex:1; font-size: 0.9rem;">Phone</span>
+                    <span style="opacity: 0.4; font-size: 0.9rem;">07984 888450</span>
+                    <span style="opacity: 0.4; margin-left: 0.5rem;">→</span>
+                </a>
+                <a href="mailto:seanedwardashton@hotmail.com" style="display:flex; align-items:center; padding: 0.75rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.08); text-decoration: none; color: inherit;">
+                    <span style="font-size: 1.25rem; margin-right: 0.75rem;">✉️</span>
+                    <span style="flex:1; font-size: 0.9rem;">Email</span>
+                    <span style="opacity: 0.4; font-size: 0.9rem;">sean@...</span>
+                    <span style="opacity: 0.4; margin-left: 0.5rem;">→</span>
+                </a>
+                <div style="display:flex; align-items:center; padding: 0.75rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.08);">
+                    <span style="font-size: 1.25rem; margin-right: 0.75rem;">🎂</span>
+                    <span style="flex:1; font-size: 0.9rem;">Birthday</span>
+                    <span style="opacity: 0.4; font-size: 0.9rem;">8 September</span>
+                    <span style="opacity: 0.4; margin-left: 0.5rem;">→</span>
+                </div>
+                <div style="display:flex; align-items:center; padding: 0.75rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.08);">
+                    <span style="font-size: 1.25rem; margin-right: 0.75rem;">🏠</span>
+                    <span style="flex:1; font-size: 0.9rem;">Home</span>
+                    <span style="opacity: 0.4; font-size: 0.9rem;">10 Centenary Way</span>
+                    <span style="opacity: 0.4; margin-left: 0.5rem;">→</span>
+                </div>
+                <div style="display:flex; align-items:center; padding: 0.75rem 1rem;">
+                    <span style="font-size: 1.25rem; margin-right: 0.75rem;">💼</span>
+                    <span style="flex:1; font-size: 0.9rem;">Work</span>
+                    <span style="opacity: 0.4; font-size: 0.9rem;">Norfolk County Council</span>
+                    <span style="opacity: 0.4; margin-left: 0.5rem;">→</span>
+                </div>
+            </div>
+            
+            <!-- Hobbies - Clickable Chips -->
+            <div style="margin-bottom: 1rem;">
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom: 0.5rem;">
+                    <span style="opacity: 0.5; font-size: 0.75rem; text-transform: uppercase;">🎮 Hobbies</span>
+                    <span style="font-size:0.8rem;opacity:0.5;cursor:pointer;">+ Add</span>
+                </div>
+                <div style="display:flex; flex-wrap:wrap; gap: 0.5rem;">
+                    <div style="background: rgba(255,255,255,0.1); padding: 0.4rem 0.8rem; border-radius: 1rem; font-size: 0.8rem;">🎮 Gaming</div>
+                    <div style="background: rgba(255,255,255,0.1); padding: 0.4rem 0.8rem; border-radius: 1rem; font-size: 0.8rem;">📺 Tech</div>
+                    <div style="background: rgba(255,255,255,0.1); padding: 0.4rem 0.8rem; border-radius: 1rem; font-size: 0.8rem; opacity: 0.4; border: 1px dashed rgba(255,255,255,0.3);">+ Add</div>
+                </div>
+            </div>
+            
+            <!-- Food Likes -->
+            <div style="margin-bottom: 1rem;">
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom: 0.5rem;">
+                    <span style="opacity: 0.5; font-size: 0.75rem; text-transform: uppercase;">🍕 Food Likes</span>
+                    <span style="font-size:0.8rem;opacity:0.5;cursor:pointer;">+ Add</span>
+                </div>
+                <div style="display:flex; flex-wrap:wrap; gap: 0.5rem;">
+                    <div style="background: rgba(34,197,94,0.2); padding: 0.4rem 0.8rem; border-radius: 1rem; font-size: 0.8rem;">🍕 Pizza</div>
+                    <div style="background: rgba(34,197,94,0.2); padding: 0.4rem 0.8rem; border-radius: 1rem; font-size: 0.8rem;">🍔 Burgers</div>
+                    <div style="background: rgba(34,197,94,0.2); padding: 0.4rem 0.8rem; border-radius: 1rem; font-size: 0.8rem;">🌮 Thai</div>
+                    <div style="background: rgba(255,255,255,0.1); padding: 0.4rem 0.8rem; border-radius: 1rem; font-size: 0.8rem; opacity: 0.4; border: 1px dashed rgba(255,255,255,0.3);">+ Add</div>
+                </div>
+            </div>
+            
+            <!-- Food Dislikes -->
+            <div style="margin-bottom: 1rem;">
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom: 0.5rem;">
+                    <span style="opacity: 0.5; font-size: 0.75rem; text-transform: uppercase;">🚫 Food Dislikes</span>
+                    <span style="font-size:0.8rem;opacity:0.5;cursor:pointer;">+ Add</span>
+                </div>
+                <div style="display:flex; flex-wrap:wrap; gap: 0.5rem;">
+                    <div style="background: rgba(239,68,68,0.2); padding: 0.4rem 0.8rem; border-radius: 1rem; font-size: 0.8rem;">🥦 Broccoli</div>
+                    <div style="background: rgba(255,255,255,0.1); padding: 0.4rem 0.8rem; border-radius: 1rem; font-size: 0.8rem; opacity: 0.4; border: 1px dashed rgba(255,255,255,0.3);">+ Add</div>
+                </div>
+            </div>
+            
+            <!-- Travel -->
+            <div style="margin-bottom: 1rem;">
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom: 0.5rem;">
+                    <span style="opacity: 0.5; font-size: 0.75rem; text-transform: uppercase;">✈️ Travel</span>
+                    <span style="font-size:0.8rem;opacity:0.5;cursor:pointer;">+ Add</span>
+                </div>
+                <div style="display:flex; flex-wrap:wrap; gap: 0.5rem;">
+                    <div style="background: rgba(59,130,246,0.2); padding: 0.4rem 0.8rem; border-radius: 1rem; font-size: 0.8rem;">🏖️ Beach</div>
+                    <div style="background: rgba(59,130,246,0.2); padding: 0.4rem 0.8rem; border-radius: 1rem; font-size: 0.8rem;">🏔️ Hiking</div>
+                    <div style="background: rgba(255,255,255,0.1); padding: 0.4rem 0.8rem; border-radius: 1rem; font-size: 0.8rem; opacity: 0.4; border: 1px dashed rgba(255,255,255,0.3);">+ Add</div>
+                </div>
+            </div>
+            
+            <!-- Sports & Fitness -->
+            <div style="margin-bottom: 1rem;">
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom: 0.5rem;">
+                    <span style="opacity: 0.5; font-size: 0.75rem; text-transform: uppercase;">⚽ Sports & Fitness</span>
+                    <span style="font-size:0.8rem;opacity:0.5;cursor:pointer;">+ Add</span>
+                </div>
+                <div style="display:flex; flex-wrap:wrap; gap: 0.5rem;">
+                    <div style="background: rgba(255,255,255,0.1); padding: 0.4rem 0.8rem; border-radius: 1rem; font-size: 0.8rem; opacity: 0.4; border: 1px dashed rgba(255,255,255,0.3);">+ Add</div>
+                </div>
+            </div>
+            
+            <!-- Films & TV -->
+            <div style="margin-bottom: 1rem;">
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom: 0.5rem;">
+                    <span style="opacity: 0.5; font-size: 0.75rem; text-transform: uppercase;">🎬 Films & TV</span>
+                    <span style="font-size:0.8rem;opacity:0.5;cursor:pointer;">+ Add</span>
+                </div>
+                <div style="display:flex; flex-wrap:wrap; gap: 0.5rem;">
+                    <div style="background: rgba(255,255,255,0.1); padding: 0.4rem 0.8rem; border-radius: 1rem; font-size: 0.8rem; opacity: 0.4; border: 1px dashed rgba(255,255,255,0.3);">+ Add</div>
+                </div>
+            </div>
+            
+            <!-- Tech -->
+            <div style="margin-bottom: 1rem;">
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom: 0.5rem;">
+                    <span style="opacity: 0.5; font-size: 0.75rem; text-transform: uppercase;">💻 Tech</span>
+                    <span style="font-size:0.8rem;opacity:0.5;cursor:pointer;">+ Add</span>
+                </div>
+                <div style="display:flex; flex-wrap:wrap; gap: 0.5rem;">
+                    <div style="background: rgba(168,85,247,0.2); padding: 0.4rem 0.8rem; border-radius: 1rem; font-size: 0.8rem;">🍎 Apple</div>
+                    <div style="background: rgba(168,85,247,0.2); padding: 0.4rem 0.8rem; border-radius: 1rem; font-size: 0.8rem;">🎮 Gaming PC</div>
+                    <div style="background: rgba(255,255,255,0.1); padding: 0.4rem 0.8rem; border-radius: 1rem; font-size: 0.8rem; opacity: 0.4; border: 1px dashed rgba(255,255,255,0.3);">+ Add</div>
+                </div>
+            </div>
+            
+            <!-- Pets - Beau 💛 -->
+            <div style="margin-bottom: 1rem;">
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom: 0.5rem;">
+                    <span style="opacity: 0.5; font-size: 0.75rem; text-transform: uppercase;">🐾 Pets</span>
+                    <span style="font-size:0.8rem;opacity:0.5;cursor:pointer;">+ Add</span>
+                </div>
+                <div style="display:flex; flex-wrap:wrap; gap: 0.5rem;">
+                    <div style="background: rgba(251,191,36,0.2); padding: 0.4rem 0.8rem; border-radius: 1rem; font-size: 0.8rem;">🐕 Beau (2020-2024)</div>
+                    <div style="background: rgba(251,191,36,0.2); padding: 0.4rem 0.8rem; border-radius: 1rem; font-size: 0.8rem;">🐕 Mini Dachshund</div>
+                </div>
+                <div style="margin-top: 0.5rem; padding: 0.5rem; background: rgba(59,130,246,0.1); border-radius: 0.5rem; font-size: 0.75rem; opacity: 0.7;">
+                    🔜 Future: Looking for a bigger place with garden first!
+                </div>
+            </div>
+            
+            <!-- Important Dates -->
+            <div style="margin-bottom: 1rem;">
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom: 0.5rem;">
+                    <span style="opacity: 0.5; font-size: 0.75rem; text-transform: uppercase;">🎉 Important Dates</span>
+                    <span style="font-size:0.8rem;opacity:0.5;cursor:pointer;">+ Add</span>
+                </div>
+                <div style="display:flex; flex-wrap:wrap; gap: 0.5rem;">
+                    <div style="background: rgba(236,72,153,0.2); padding: 0.4rem 0.8rem; border-radius: 1rem; font-size: 0.8rem;">🎂 8 Sep - Sean's Birthday</div>
+                    <div style="background: rgba(236,72,153,0.2); padding: 0.4rem 0.8rem; border-radius: 1rem; font-size: 0.8rem;">🎂 24 Jul - David's Birthday</div>
+                    <div style="background: rgba(251,191,36,0.2); padding: 0.4rem 0.8rem; border-radius: 1rem; font-size: 0.8rem;">💍 Wedding Anniversary</div>
+                    <div style="background: rgba(255,255,255,0.1); padding: 0.4rem 0.8rem; border-radius: 1rem; font-size: 0.8rem; opacity: 0.4; border: 1px dashed rgba(255,255,255,0.3);">+ Add</div>
+                </div>
+            </div>
+            
+            <!-- Car -->
+            <div style="margin-bottom: 1rem;">
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom: 0.5rem;">
+                    <span style="opacity: 0.5; font-size: 0.75rem; text-transform: uppercase;">🚗 Car</span>
+                    <span style="font-size:0.8rem;opacity:0.5;cursor:pointer;">+ Add</span>
+                </div>
+                <div style="display:flex; flex-wrap:wrap; gap: 0.5rem;">
+                    <div style="background: rgba(251,191,36,0.2); padding: 0.4rem 0.8rem; border-radius: 1rem; font-size: 0.8rem;">+ Add</div>
+                </div>
+            </div>
+            
+            <!-- Morning Routine -->
+            <div style="margin-bottom: 1rem;">
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom: 0.5rem;">
+                    <span style="opacity: 0.5; font-size: 0.75rem; text-transform: uppercase;">☀️ Morning Routine</span>
+                    <span style="font-size:0.8rem;opacity:0.5;cursor:pointer;">+ Add</span>
+                </div>
+                <div style="display:flex; flex-wrap:wrap; gap: 0.5rem;">
+                    <div style="background: rgba(251,191,36,0.2); padding: 0.4rem 0.8rem; border-radius: 1rem; font-size: 0.8rem;">+ Add</div>
+                </div>
+            </div>
+            
+            <!-- Sleep Schedule -->
+            <div style="margin-bottom: 1.5rem;">
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom: 0.5rem;">
+                    <span style="opacity: 0.5; font-size: 0.75rem; text-transform: uppercase;">😴 Sleep Schedule</span>
+                    <span style="font-size:0.8rem;opacity:0.5;cursor:pointer;">+ Add</span>
+                </div>
+                <div style="display:flex; flex-wrap:wrap; gap: 0.5rem;">
+                    <div style="background: rgba(99,102,241,0.2); padding: 0.4rem 0.8rem; border-radius: 1rem; font-size: 0.8rem;">🌙 Bed: 11PM</div>
+                    <div style="background: rgba(251,191,36,0.2); padding: 0.4rem 0.8rem; border-radius: 1rem; font-size: 0.8rem;">⏰ Wake: 6:30AM</div>
+                </div>
+            </div>
+            
+            <!-- David Section -->
+            <div style="background: rgba(255,255,255,0.08); border-radius: 0.75rem; margin-bottom: 1.5rem;">
+                <div style="padding: 0.75rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.08);">
+                    <span style="opacity: 0.5; font-size: 0.75rem; text-transform: uppercase;">David</span>
+                </div>
+                <a href="tel:07849657685" style="display:flex; align-items:center; padding: 0.75rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.08); text-decoration: none; color: inherit;">
+                    <span style="font-size: 1.25rem; margin-right: 0.75rem;">📱</span>
+                    <span style="flex:1; font-size: 0.9rem;">Phone</span>
+                    <span style="opacity: 0.4; font-size: 0.9rem;">07849 657685</span>
+                    <span style="opacity: 0.4; margin-left: 0.5rem;">→</span>
+                </a>
+                <a href="mailto:david_ashton1992@yahoo.com" style="display:flex; align-items:center; padding: 0.75rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.08); text-decoration: none; color: inherit;">
+                    <span style="font-size: 1.25rem; margin-right: 0.75rem;">✉️</span>
+                    <span style="flex:1; font-size: 0.9rem;">Email</span>
+                    <span style="opacity: 0.4; font-size: 0.9rem;">david@...</span>
+                    <span style="opacity: 0.4; margin-left: 0.5rem;">→</span>
+                </a>
+                <div style="display:flex; align-items:center; padding: 0.75rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.08);">
+                    <span style="font-size: 1.25rem; margin-right: 0.75rem;">🎂</span>
+                    <span style="flex:1; font-size: 0.9rem;">Birthday</span>
+                    <span style="opacity: 0.4; font-size: 0.9rem;">24 July</span>
+                    <span style="opacity: 0.4; margin-left: 0.5rem;">→</span>
+                </div>
+                <div style="display:flex; align-items:center; padding: 0.75rem 1rem;">
+                    <span style="font-size: 1.25rem; margin-right: 0.75rem;">💼</span>
+                    <span style="flex:1; font-size: 0.9rem;">Work</span>
+                    <span style="opacity: 0.4; font-size: 0.9rem;">Precision Refrigeration</span>
+                    <span style="opacity: 0.4; margin-left: 0.5rem;">→</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- TEAM SUBPAGES --><!-- TEAM SUBPAGES --><!-- TEAM SUBPAGES --><!-- TEAM SUBPAGES --><!-- TEAM SUBPAGES -->
+        <div id="view-team-dashboard" class="view">
+            <div style="padding-top: 3rem; position: relative; margin-bottom: 1rem;">
+                <span style="cursor:pointer; font-size:1.5rem;" onclick="switchView('team')">←</span>
+                <span style="float:right;" onclick="toggleTheme()"><span class="active">🌙</span></span>
+                <h2 style="text-align:center; font-size:1.3rem;">Team Dashboard</h2>
+            </div>
+            <div class="glass" style="padding:1rem; margin-bottom:1rem;">
+                <div style="font-size:0.9rem; opacity:0.7;">Active Agents</div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:0.5rem;">
+                    <span>🦞 Clawbie</span><span style="color:#22C55E;">● Online</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <span>💅 Tiffany</span><span style="color:#22C55E;">● Online</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <span>🔪 Chucky</span><span style="color:#22C55E;">● Online</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <span>👻 Glenda</span><span style="color:#22C55E;">● Online</span>
+                </div>
+            </div>
+            <div class="glass" style="padding:1rem; margin-bottom:1rem;">
+                <div style="font-size:0.9rem; opacity:0.7;">System Status</div>
+                <div style="display:flex; justify-content:space-between; margin-top:0.5rem;">
+                    <span>Gateway</span><span style="color:#22C55E;">Healthy</span>
+                </div>
+                <div style="display:flex; justify-content:space-between;">
+                    <span>Cron Jobs</span><span style="color:#22C55E;">Running</span>
+                </div>
+                <div style="display:flex; justify-content:space-between;">
+                    <span>Memory</span><span style="color:#22C55E;">85%</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-team-tasks" class="view">
+            <div style="padding-top: 3rem; position: relative; margin-bottom: 1rem;">
+                <span style="cursor:pointer; font-size:1.5rem;" onclick="switchView('team')">←</span>
+                <span style="float:right;" onclick="toggleTheme()"><span class="active">🌙</span></span>
+                <h2 style="text-align:center; font-size:1.3rem;">Team Tasks</h2>
+            </div>
+            <div id="team-task-filters" style="display:flex; gap:0.5rem; margin-bottom:1rem; overflow-x:auto;">
+                <button class="glass" style="padding:0.5rem 1rem; border:none; color:white;" onclick="filterTeamTasks('all')">All</button>
+                <button class="glass" style="padding:0.5rem 1rem; border:none; opacity:0.6;" onclick="filterTeamTasks('clawbie')">Clawbie</button>
+                <button class="glass" style="padding:0.5rem 1rem; border:none; opacity:0.6;" onclick="filterTeamTasks('tiffany')">Tiffany</button>
+                <button class="glass" style="padding:0.5rem 1rem; border:none; opacity:0.6;" onclick="filterTeamTasks('chucky')">Chucky</button>
+                <button class="glass" style="padding:0.5rem 1rem; border:none; opacity:0.6;" onclick="filterTeamTasks('glenda')">Glenda</button>
+            </div>
+            <div id="team-tasks-list">
+                <div class="glass" style="padding:1rem; margin-bottom:0.5rem;">
+                    <div style="display:flex; justify-content:space-between;">
+                        <span style="font-weight:600;">File Structure Guardian</span>
+                        <span style="font-size:0.8rem; opacity:0.6;">🦞</span>
+                    </div>
+                    <div style="font-size:0.85rem; opacity:0.7; margin-top:0.25rem;">Every 2 hours check</div>
+                </div>
+                <div class="glass" style="padding:1rem; margin-bottom:0.5rem;">
+                    <div style="display:flex; justify-content:space-between;">
+                        <span style="font-weight:600;">Daily Memory</span>
+                        <span style="font-size:0.8rem; opacity:0.6;">💅</span>
+                    </div>
+                    <div style="font-size:0.85rem; opacity:0.7; margin-top:0.25rem;">Midnight daily</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-team-memory" class="view">
+            <div style="padding-top: 3rem; position: relative; margin-bottom: 1rem;">
+                <span style="cursor:pointer; font-size:1.5rem;" onclick="switchView('team')">←</span>
+                <span style="float:right;" onclick="toggleTheme()"><span class="active">🌙</span></span>
+                <h2 style="text-align:center; font-size:1.3rem;">Team Memory</h2>
+            </div>
+            <div class="glass" style="padding:1rem; margin-bottom:1rem;">
+                <div style="font-size:0.9rem; font-weight:600;">Recent Memories</div>
+                <div style="font-size:0.85rem; opacity:0.7; margin-top:0.5rem;">25_02_2026 - Tiffany</div>
+                <div style="font-size:0.85rem; opacity:0.7;">24_02_2026 - Clawbie</div>
+                <div style="font-size:0.85rem; opacity:0.7;">24_02_2026 - Tiffany</div>
+                <div style="font-size:0.85rem; opacity:0.7;">23_02_2026 - Chucky</div>
+            </div>
+            <div class="glass" style="padding:1rem;">
+                <div style="font-size:0.9rem; font-weight:600;">Key Learnings</div>
+                <div style="font-size:0.85rem; opacity:0.7; margin-top:0.5rem;">• File consolidation complete</div>
+                <div style="font-size:0.85rem; opacity:0.7;">• Ashton Hub app deployed</div>
+                <div style="font-size:0.85rem; opacity:0.7;">• 20 page guides created</div>
+            </div>
+        </div>
+
+        <div id="view-team-status" class="view">
+            <div style="padding-top: 3rem; position: relative; margin-bottom: 1rem;">
+                <span style="cursor:pointer; font-size:1.5rem;" onclick="switchView('team')">←</span>
+                <span style="float:right;" onclick="toggleTheme()"><span class="active">🌙</span></span>
+                <h2 style="text-align:center; font-size:1.3rem;">Agent Status</h2>
+            </div>
+            <div class="apple-section-header">System</div>
+            <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:0.5rem; margin-bottom:1rem;">
+                <div class="glass" style="text-align:center;padding:1rem;"><div style="font-size:0.7rem;opacity:0.6;">UPTIME</div><div style="font-size:1.25rem;font-weight:700;">99.9%</div></div>
+                <div class="glass" style="text-align:center;padding:1rem;"><div style="font-size:0.7rem;opacity:0.6;">CRONS</div><div style="font-size:1.25rem;font-weight:700;">12</div></div>
+                <div class="glass" style="text-align:center;padding:1rem;"><div style="font-size:0.7rem;opacity:0.6;">ERRORS</div><div style="font-size:1.25rem;font-weight:700;color:#22C55E;">0</div></div>
+            </div>
+            
+            <div class="apple-section-header">Agents</div>
+            <div class="glass" style="padding:0;" id="team-status-list"></div>
+            
+            <div class="apple-section-header">Schedule</div>
+            <div class="glass" style="padding:0;" id="team-schedule-list"></div>
+                <div style="font-size:1.5rem;">💅 Ready to work!</div>
+            </div>
+        </div>
+
+        <div id="view-team-schedule" class="view">
+            <div style="padding-top: 3rem; position: relative; margin-bottom: 1rem;">
+                <span style="cursor:pointer; font-size:1.5rem;" onclick="switchView('team')">←</span>
+                <span style="float:right;" onclick="toggleTheme()"><span class="active">🌙</span></span>
+                <h2 style="text-align:center; font-size:1.3rem;">Schedule</h2>
+            </div>
+            <div class="glass" style="padding:1rem; margin-bottom:1rem;">
+                <div style="font-size:0.9rem; font-weight:600;">Upcoming</div>
+                <div style="margin-top:0.5rem; padding:0.5rem 0; border-bottom:1px solid rgba(255,255,255,0.1);">
+                    <div style="font-weight:600;">Daily Memory</div>
+                    <div style="font-size:0.85rem; opacity:0.7;">Midnight • 💅 Tiffany</div>
+                </div>
+                <div style="margin-top:0.5rem; padding:0.5rem 0; border-bottom:1px solid rgba(255,255,255,0.1);">
+                    <div style="font-weight:600;">File Guardian Check</div>
+                    <div style="font-size:0.85rem; opacity:0.7;">2:00 AM • 🦞 Clawbie</div>
+                </div>
+                <div style="margin-top:0.5rem; padding:0.5rem 0;">
+                    <div style="font-weight:600;">Morning Standup</div>
+                    <div style="font-size:0.85rem; opacity:0.7;">7:00 AM • Team</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-activity" class="view">
+            <div style="padding-top: 3rem; position: relative; margin-bottom: 1rem;">
+                <span style="cursor:pointer; font-size:1.5rem;" onclick="switchView('team')">←</span>
+                <span style="float:right;" onclick="toggleTheme()"><span class="active">🌙</span></span>
+                <h2 style="text-align:center; font-size:1.3rem;">Activity</h2>
+            </div>
+            <div class="glass" style="padding:1rem; margin-bottom:0.5rem;">
+                <div style="display:flex; justify-content:space-between;">
+                    <span>💅 Tiffany</span>
+                    <span style="font-size:0.8rem; opacity:0.6;">Just now</span>
+                </div>
+                <div style="margin-top:0.25rem;">Created daily memory</div>
+            </div>
+            <div class="glass" style="padding:1rem; margin-bottom:0.5rem;">
+                <div style="display:flex; justify-content:space-between;">
+                    <span>🦞 Clawbie</span>
+                    <span style="font-size:0.8rem; opacity:0.6;">2h ago</span>
+                </div>
+                <div style="margin-top:0.25rem;">File structure check complete</div>
+            </div>
+            <div class="glass" style="padding:1rem;">
+                <div style="display:flex; justify-content:space-between;">
+                    <span>🔪 Chucky</span>
+                    <span style="font-size:0.8rem; opacity:0.6;">5h ago</span>
+                </div>
+                <div style="margin-top:0.25rem;">Super Intelligence task updated</div>
+            </div>
+        </div>
+
+        <div id="view-files" class="view">
+            <div style="padding-top: 3rem; position: relative; margin-bottom: 1rem;">
+                <span style="cursor:pointer; font-size:1.5rem;" onclick="switchView('sean-david')">←</span>
+                <span style="float:right;" onclick="toggleTheme()"><span class="active">🌙</span></span>
+                <h2 style="text-align:center; font-size:1.3rem;">Files</h2>
+            </div>
+            <div class="glass" style="padding:2rem; text-align:center;">
+                <div style="font-size:3rem; margin-bottom:1rem;">📁</div>
+                <div style="font-size:1.1rem; font-weight:600;">OneDrive</div>
+                <div style="font-size:0.9rem; opacity:0.7; margin-top:0.5rem;">Link to Master_OneDrive</div>
+                <button class="glass" style="margin-top:1rem; padding:0.75rem 2rem; border:none; color:white; cursor:pointer;" onclick="window.open('https://onedrive.live.com', '_blank')">Open OneDrive</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+    // Auto theme based on time (6AM = light, 6PM = dark)
+    let isDarkMode = true;
+    const hour = new Date().getHours();
+    if (hour >= 6 && hour < 18) {
+        isDarkMode = false; // Light mode during day
+    }
+    
+    // Apply theme on load
+    document.addEventListener('DOMContentLoaded', function() {
+        if (!isDarkMode) {
+            document.body.classList.add('light-mode');
+            document.body.style.background = 'url(background.jpg) no-repeat center center fixed';
+            document.body.style.backgroundSize = 'cover';
+            
+            // Update toggle icons
+            document.querySelectorAll('.theme-toggle').forEach(toggle => {
+                const spans = toggle.querySelectorAll('span');
+                if (spans.length === 2) {
+                    spans[0].classList.remove('active');
+                    spans[1].classList.add('active');
+                }
+            });
+            
+            document.querySelectorAll('[onclick="toggleTheme()"]').forEach(el => {
+                const span = el.querySelector('span');
+                if (span) {
+                    span.textContent = '☀️';
+                }
+            });
+        }
+    });
+    
+    function toggleTheme() {
+        isDarkMode = !isDarkMode;
+        const body = document.body;
+        
+        if (isDarkMode) {
+            body.classList.remove('light-mode');
+            body.style.background = 'url(background-dark.jpg) no-repeat center center fixed';
+            body.style.backgroundSize = 'cover';
+        } else {
+            body.classList.add('light-mode');
+            body.style.background = 'url(background.jpg) no-repeat center center fixed';
+            body.style.backgroundSize = 'cover';
+        }
+        
+        // Update all theme toggle icons
+        document.querySelectorAll('.theme-toggle').forEach(toggle => {
+            const spans = toggle.querySelectorAll('span');
+            if (spans.length === 2) {
+                if (isDarkMode) {
+                    spans[0].classList.add('active');
+                    spans[1].classList.remove('active');
+                } else {
+                    spans[0].classList.remove('active');
+                    spans[1].classList.add('active');
+                }
+            }
+        });
+        
+        // Update standalone moon icons
+        document.querySelectorAll('[onclick="toggleTheme()"]').forEach(el => {
+            const span = el.querySelector('span');
+            if (span && span.textContent === '🌙') {
+                span.textContent = isDarkMode ? '🌙' : '☀️';
+            }
+        });
+    }
+    
+    function switchView(viewName) {
+        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+        document.getElementById('view-' + viewName).classList.add('active');
+        document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+    }
+    // Set date
+    const now = new Date();
+    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const dateEl = document.getElementById('date');
+    if (dateEl) dateEl.textContent = days[now.getDay()] + ', ' + now.getDate() + ' ' + months[now.getMonth()];
+    
+    // Team chat function
+    function sendTeamMessage() {
+        const input = document.getElementById('team-chat-input');
+        const messages = document.getElementById('team-messages');
+        const text = input.value.trim();
+        
+        if (text) {
+            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const newMsg = document.createElement('div');
+            newMsg.style.marginBottom = '0.5rem';
+            newMsg.innerHTML = '<div style="display:flex; align-items:center; gap: 0.25rem; margin-bottom: 0.15rem;"><span>👤</span><span style="font-size: 0.75rem; font-weight: 600;">Sean</span><span style="font-size: 0.65rem; opacity: 0.5;">' + time + '</span></div><div style="background: rgba(255,255,255,0.2); padding: 0.4rem 0.6rem; border-radius: 0.75rem; border-top-right-radius: 0.25rem; font-size: 0.8rem;">' + text + '</div>';
+            messages.appendChild(newMsg);
+            input.value = '';
+            // Scroll to bottom
+            document.getElementById('team-chat-box').scrollTop = document.getElementById('team-chat-box').scrollHeight;
+        }
+    }
+        // REAL DATA FROM master_database
+    const calendarEvents = [
+        {id: 1, title: "Sean's Interview - Legal Executive", start_datetime: "2026-02-25T14:30:00", end_datetime: "2026-02-25T15:30:00", color: "blue"},
+        {id: 2, title: "Scream 7 🎬", start_datetime: "2026-02-27T20:30:00", end_datetime: "2026-02-27T22:00:00", color: "red"},
+        {id: 3, title: "Sean's Stop Smoking Call", start_datetime: "2026-03-02T11:30:00", end_datetime: "2026-03-02T12:00:00", color: "green"},
+        {id: 4, title: "David's Car MOT (EJ64 EVG)", start_datetime: "2026-09-17T08:00:00", end_datetime: "2026-09-17T09:00:00", color: "orange"},
+        {id: 5, title: "David's Car Road Tax (EJ64 EVG)", start_datetime: "2026-09-24T08:00:00", end_datetime: "2026-09-24T08:30:00", color: "orange"}
+    ];
+    const calendarEvents = [
+        {id: 1, title: "Sean's Interview - Legal Executive", start_datetime: "2026-02-25T14:30:00", end_datetime: "2026-02-25T15:30:00", color: "blue"},
+        {id: 2, title: "Scream 7 🎬", start_datetime: "2026-02-27T20:30:00", end_datetime: "2026-02-27T22:00:00", color: "red"},
+        {id: 3, title: "Sean's Stop Smoking Call", start_datetime: "2026-03-02T11:30:00", end_datetime: "2026-03-02T12:00:00", color: "green"},
+        {id: 4, title: "David's Car MOT (EJ64 EVG)", start_datetime: "2026-09-17T08:00:00", end_datetime: "2026-09-17T09:00:00", color: "orange"},
+        {id: 5, title: "David's Car Road Tax (EJ64 EVG)", start_datetime: "2026-09-24T08:00:00", end_datetime: "2026-09-24T08:30:00", color: "orange"}
+    ];
+    const calendarEvents = [
+        {id: 1, title: "Sean's Interview - Legal Executive", start_datetime: "2026-02-25T14:30:00", end_datetime: "2026-02-25T15:30:00", color: "blue"},
+        {id: 2, title: "Scream 7 🎬", start_datetime: "2026-02-27T20:30:00", end_datetime: "2026-02-27T22:00:00", color: "red"},
+        {id: 3, title: "Sean's Stop Smoking Call", start_datetime: "2026-03-02T11:30:00", end_datetime: "2026-03-02T12:00:00", color: "green"},
+        {id: 4, title: "David's Car MOT (EJ64 EVG)", start_datetime: "2026-09-17T08:00:00", end_datetime: "2026-09-17T09:00:00", color: "orange"},
+        {id: 5, title: "David's Car Road Tax (EJ64 EVG)", start_datetime: "2026-09-24T08:00:00", end_datetime: "2026-09-24T08:30:00", color: "orange"}
+    ];
+    const calendarEvents = [
+        {id: 1, title: "Sean's Interview - Legal Executive", start_datetime: "2026-02-25T14:30:00", end_datetime: "2026-02-25T15:30:00", color: "blue"},
+        {id: 2, title: "Scream 7 🎬", start_datetime: "2026-02-27T20:30:00", end_datetime: "2026-02-27T22:00:00", color: "red"},
+        {id: 3, title: "Sean's Stop Smoking Call", start_datetime: "2026-03-02T11:30:00", end_datetime: "2026-03-02T12:00:00", color: "green"},
+        {id: 4, title: "David's Car MOT (EJ64 EVG)", start_datetime: "2026-09-17T08:00:00", end_datetime: "2026-09-17T09:00:00", color: "orange"},
+        {id: 5, title: "David's Car Road Tax (EJ64 EVG)", start_datetime: "2026-09-24T08:00:00", end_datetime: "2026-09-24T08:30:00", color: "orange"}
+    ];
+    const calendarEvents = [
+        {id: 1, title: "Sean's Interview - Legal Executive", start_datetime: "2026-02-25T14:30:00", end_datetime: "2026-02-25T15:30:00", color: "blue"},
+        {id: 2, title: "Scream 7 🎬", start_datetime: "2026-02-27T20:30:00", end_datetime: "2026-02-27T22:00:00", color: "red"},
+        {id: 3, title: "Sean's Stop Smoking Call", start_datetime: "2026-03-02T11:30:00", end_datetime: "2026-03-02T12:00:00", color: "green"},
+        {id: 4, title: "David's Car MOT (EJ64 EVG)", start_datetime: "2026-09-17T08:00:00", end_datetime: "2026-09-17T09:00:00", color: "orange"},
+        {id: 5, title: "David's Car Road Tax (EJ64 EVG)", start_datetime: "2026-09-24T08:00:00", end_datetime: "2026-09-24T08:30:00", color: "orange"}
+    ];
+    const calendarEvents = [
+        {id: 1, title: "Sean's Interview - Legal Executive", start_datetime: "2026-02-25T14:30:00", end_datetime: "2026-02-25T15:30:00", color: "blue"},
+        {id: 2, title: "Scream 7 🎬", start_datetime: "2026-02-27T20:30:00", end_datetime: "2026-02-27T22:00:00", color: "red"},
+        {id: 3, title: "Sean's Stop Smoking Call", start_datetime: "2026-03-02T11:30:00", end_datetime: "2026-03-02T12:00:00", color: "green"},
+        {id: 4, title: "David's Car MOT (EJ64 EVG)", start_datetime: "2026-09-17T08:00:00", end_datetime: "2026-09-17T09:00:00", color: "orange"},
+        {id: 5, title: "David's Car Road Tax (EJ64 EVG)", start_datetime: "2026-09-24T08:00:00", end_datetime: "2026-09-24T08:30:00", color: "orange"}
+    ];
+    const calendarEvents = [
+        {id: 1, title: "Sean's Interview - Legal Executive", start_datetime: "2026-02-25T14:30:00", end_datetime: "2026-02-25T15:30:00", color: "blue"},
+        {id: 2, title: "Scream 7 🎬", start_datetime: "2026-02-27T20:30:00", end_datetime: "2026-02-27T22:00:00", color: "red"},
+        {id: 3, title: "Sean's Stop Smoking Call", start_datetime: "2026-03-02T11:30:00", end_datetime: "2026-03-02T12:00:00", color: "green"},
+        {id: 4, title: "David's Car MOT (EJ64 EVG)", start_datetime: "2026-09-17T08:00:00", end_datetime: "2026-09-17T09:00:00", color: "orange"},
+        {id: 5, title: "David's Car Road Tax (EJ64 EVG)", start_datetime: "2026-09-24T08:00:00", end_datetime: "2026-09-24T08:30:00", color: "orange"}
+    ];
+    
+    const shoppingItems = [
+        {id: 1, name: "Milk", quantity: 2, completed: false, added_by: "David"},
+        {id: 2, name: "Bread", quantity: 1, completed: false, added_by: "Sean"},
+        {id: 3, name: "Eggs", quantity: 1, completed: false, added_by: "David"},
+        {id: 4, name: "Butter", quantity: 1, completed: true, added_by: "Sean"},
+        {id: 5, name: "Cheese", quantity: 1, completed: false, added_by: "David"},
+        {id: 6, name: "Chicken breast", quantity: 2, completed: false, added_by: "Joint"},
+        {id: 7, name: "Rice", quantity: 1, completed: false, added_by: "Sean"},
+        {id: 8, name: "Pasta", quantity: 2, completed: false, added_by: "Joint"},
+        {id: 9, name: "Fruit", quantity: 1, completed: false, added_by: "Both"},
+        {id: 10, name: "Toilet roll", quantity: 4, completed: false, added_by: "David"}
+    ];
+    
+    const todoTasks = [
+        {id: 1, title: "Interview - Legal Executive", due_date: "2026-02-25", assigned_to: "Sean", completed: false, priority: "high"},
+        {id: 2, title: "Call Nan", due_date: "2026-02-25", assigned_to: "Sean", completed: false, priority: "medium"},
+        {id: 3, title: "Book holiday", due_date: "2026-03-01", assigned_to: "David", completed: false, priority: "high"},
+        {id: 4, title: "Pick up dry cleaning", due_date: "2026-02-25", assigned_to: "David", completed: false, priority: "low"},
+        {id: 5, title: "Buy groceries", due_date: "2026-02-25", assigned_to: "Both", completed: false, priority: "medium"},
+        {id: 6, title: "Pay bills", due_date: "2026-02-28", assigned_to: "Sean", completed: false, priority: "high"},
+        {id: 7, title: "Renew car insurance", due_date: "2026-03-07", assigned_to: "David", completed: false, priority: "high"}
+    ];
+    
+    const financeData = {
+        income: [
+            {source: "David wage", amount: 1826.77},
+            {source: "Sean wage", amount: 2054.24},
+            {source: "PIP", amount: 405.40}
+        ],
+        expenses: [
+            {category: "Housing", amount: 901.47, desc: "Mortgage"},
+            {category: "Living Cost", amount: 400.00, desc: "Food"},
+            {category: "Personal", amount: 300.00, desc: "Spend"},
+            {category: "Housing", amount: 146.00, desc: "Council Tax"},
+            {category: "Utilities", amount: 124.49, desc: "Octopus"},
+            {category: "Personal", amount: 150.00, desc: "David personal"},
+            {category: "Personal", amount: 150.00, desc: "Sean personal"},
+            {category: "Fuel", amount: 150.00, desc: "David fuel"},
+            {category: "Utilities", amount: 42.99, desc: "EE Broadband"},
+            {category: "Phone", amount: 34.50, desc: "EE Phone"},
+            {category: "Phone", amount: 30.09, desc: "Sean phone"},
+            {category: "Insurance", amount: 30.29, desc: "Admiral"},
+            {category: "Phone", amount: 29.98, desc: "Samsung phone"},
+            {category: "Healthcare", amount: 22.46, desc: "Denplan"},
+            {category: "Subscription", amount: 18.99, desc: "Google One"},
+            {category: "Subscription", amount: 16.99, desc: "Apple Music"},
+            {category: "Other", amount: 9.60, desc: "Go Cardless"},
+            {category: "Subscription", amount: 8.99, desc: "Amazon Prime"},
+            {category: "Utilities", amount: 54.00, desc: "Water"},
+            {category: "Subscription", amount: 4.99, desc: "Ring"},
+            {category: "Subscription", amount: 1.99, desc: "Google storage"}
+        ]
+    };
+
+    // Render calendar with real data
+    function renderCalendarEvents() {
+        const container = document.getElementById('calendar-events');
+        if (!container) return;
+        
+        // Group events by date
+        const eventsByDate = {};
+        calendarEvents.forEach(event => {
+            const date = event.start_datetime.split('T')[0];
+            if (!eventsByDate[date]) eventsByDate[date] = [];
+            eventsByDate[date].push(event);
+        });
+        
+        // Render
+        let html = '';
+        const colorMap = {blue: '#3B82F6', red: '#EF4444', green: '#22C55E', orange: '#F97316', purple: '#A78BFA'};
+        
+        Object.keys(eventsByDate).sort().forEach(date => {
+            const dateObj = new Date(date + 'T00:00:00');
+            const dayName = dateObj.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' });
+            html += `<div class="apple-section-header" style="margin-top:1rem;">${dayName}</div>`;
+            
+            eventsByDate[date].forEach(event => {
+                const time = new Date(event.start_datetime).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+                const color = colorMap[event.color] || '#3B82F6';
+                html += `<div class="glass" style="padding: 0.75rem 1rem; display: flex; align-items: center; margin-top: 0.5rem;">
+                    <div style="width: 4px; height: 36px; background: ${color}; border-radius: 2px; margin-right: 0.75rem;"></div>
+                    <div style="flex: 1;"><div style="font-weight: 600; font-size: 0.95rem;">${event.title}</div><div style="opacity: 0.6; font-size: 0.8rem;">${time}</div></div>
+                </div>`;
+            });
+        });
+        
+        container.innerHTML = html || '<div class="glass" style="text-align:center;padding:2rem;opacity:0.6;">No events</div>';
+    }
+
+    // Render shopping with real data
+    function renderShoppingItems() {
+        const container = document.querySelector('#view-shopping .glass:last-of-type');
+        if (!container) return;
+        
+        let html = '';
+        shoppingItems.forEach(item => {
+            const checked = item.completed ? 'checked' : '';
+            html += `<div class="apple-list-item">
+                <input type="checkbox" ${checked} style="width:20px;height:20px;margin-right:0.75rem;border-radius:50%;" onchange="toggleShoppingItem(${item.id})">
+                <div style="font-weight:500;">${item.name}</div>
+                <div style="margin-left:auto;opacity:0.5;font-size:0.8rem;">${item.added_by}</div>
+            </div>`;
+        });
+        
+        container.innerHTML = html;
+    }
+
+    // Render todo with real data
+    function renderTodoItems() {
+        const container = document.querySelector('#view-todo .glass:last-of-type');
+        if (!container) return;
+        
+        let html = '';
+        todoTasks.forEach(task => {
+            const checked = task.status === 'completed' ? 'checked' : '';
+            const statusLabel = task.status === 'ongoing' ? 'Ongoing' : task.status === 'recurring' ? 'Recurring' : 'Pending';
+            html += `<div class="apple-list-item">
+                <input type="checkbox" ${checked} style="width:20px;height:20px;margin-right:0.75rem;border-radius:50%;">
+                <div style="flex:1;"><div style="font-weight:500;">${task.title}</div><div style="font-size:0.75rem;opacity:0.5;">${task.category} · ${statusLabel}</div></div>
+            </div>`;
+        });
+        
+        container.innerHTML = html;
+    }
+
+    // Render finance with real data
+    function renderFinanceItems() {
+        const income = financeData.income.reduce((sum, i) => sum + i.amount, 0);
+        const expenses = financeData.expenses.reduce((sum, e) => sum + e.amount, 0);
+        
+        document.getElementById('finance-income').textContent = '£' + income.toLocaleString('en-GB', {minimumFractionDigits: 2});
+        document.getElementById('finance-outgoing').textContent = '£' + expenses.toLocaleString('en-GB', {minimumFractionDigits: 2});
+        document.getElementById('finance-remaining').textContent = '£' + (income - expenses).toLocaleString('en-GB', {minimumFractionDigits: 2});
+        
+        // Render expense list
+        const container = document.querySelector('#view-finance .glass:last-of-type');
+        if (!container) return;
+        
+        let html = '';
+        financeData.expenses.slice(0, 8).forEach(exp => {
+            html += `<div class="apple-list-item">
+                <div style="flex:1;"><div style="font-weight:500;">${exp.desc}</div><div style="font-size:0.75rem;opacity:0.5;">${exp.category}</div></div>
+                <div style="color:#EF4444;font-weight:600;">£${exp.amount.toFixed(2)}</div>
+            </div>`;
+        });
+        
+        container.innerHTML = html;
+    }
+
+    const contactsData = [
+        {name: "Pete Hands", phone: "", email: "", address: "Flat 3 McKinlay Court Welling", postcode: "DA16 1TA", birthday: "2 March", household: "Family"},
+        {name: "Dan Chamberlain", phone: "", email: "", address: "", postcode: "", birthday: "", household: ""},
+        {name: "Asa Issit", phone: "", email: "", address: "14 Angel Close Watton Thetford", postcode: "IP25 6WW", birthday: "14 March", household: "Friends"},
+        {name: "Malcolm Chamberlain", phone: "", email: "", address: "13 Green Meadows Dymchurch Kent", postcode: "TN29 0JS", birthday: "10 May", household: "Family"},
+        {name: "Sophie Chamberlain", phone: "", email: "", address: "125 Lake Meadow Singleton Kent", postcode: "TN23 4XZ", birthday: "?", household: "Family"},
+        {name: "Hannah Brockbank", phone: "", email: "", address: "", postcode: "", birthday: "", household: ""},
+        {name: "John Chamberlain", phone: "", email: "", address: "13 Green Meadows Dymchurch Kent", postcode: "TN29 0JS", birthday: "", household: "Family"},
+        {name: "Kieran Issit", phone: "", email: "", address: "", postcode: "", birthday: "", household: ""},
+        {name: "Leanne Issit", phone: "", email: "", address: "", postcode: "", birthday: "", household: ""},
+        {name: "Mia Issit", phone: "", email: "", address: "", postcode: "", birthday: "", household: ""},
+        {name: "Olivia Issit", phone: "", email: "", address: "", postcode: "", birthday: "", household: ""},
+        {name: "Oscar Issit", phone: "", email: "", address: "", postcode: "", birthday: "", household: ""},
+        {name: "Penny Issit", phone: "", email: "", address: "", postcode: "", birthday: "", household: ""},
+        {name: "Ricky Issit", phone: "", email: "", address: "", postcode: "", birthday: "", household: ""},
+        {name: "Scott Issit", phone: "", email: "", address: "", postcode: "", birthday: "", household: ""},
+        {name: "Trevor Issit", phone: "", email: "", address: "", postcode: "", birthday: "", household: ""},
+        {name: "Amy Chamberlain", phone: "", email: "", address: "", postcode: "", birthday: "", household: ""},
+        {name: "Bob Smith", phone: "", email: "", address: "", postcode: "", birthday: "", household: ""},
+        {name: "Charlie Brown", phone: "", email: "", address: "", postcode: "", birthday: "", household: ""},
+        {name: "David Ashton", phone: "07849 657685", email: "david_ashton1992@yahoo.com", address: "10 Centenary Way Watton", postcode: "IP25 6XX", birthday: "", household: "Joint"},
+        {name: "Sean Ashton", phone: "07984 888450", email: "seanedwardashton@hotmail.com", address: "10 Centenary Way Watton", postcode: "IP25 6XX", birthday: "", household: "Joint"},
+        {name: "Sarah Smith", phone: "", email: "", address: "", postcode: "", birthday: "", household: ""},
+        {name: "Tom Jones", phone: "", email: "", address: "", postcode: "", birthday: "", household: ""},
+        {name: "Adam Smith", phone: "", email: "", address: "", postcode: "", birthday: "", household: ""},
+        {name: "Alice Andrews", phone: "", email: "", address: "", postcode: "", birthday: "", household: ""},
+        {name: "Ben Brown", phone: "", email: "", address: "", postcode: "", birthday: "", household: ""},
+        {name: "Chris Carter", phone: "", email: "", address: "", postcode: "", birthday: "", household: ""},
+        {name: "Emma Wilson", phone: "", email: "", address: "", postcode: "", birthday: "", household: ""},
+        {name: "Frank Miller", phone: "", email: "", address: "", postcode: "", birthday: "", household: ""},
+        {name: "Grace Lee", phone: "", email: "", address: "", postcode: "", birthday: "", household: ""},
+        {name: "Henry Ford", phone: "", email: "", address: "", postcode: "", birthday: "", household: ""},
+        {name: "Ivy Chen", phone: "", email: "", address: "", postcode: "", birthday: "", household: ""},
+        {name: "Jack Davis", phone: "", email: "", address: "", postcode: "", birthday: "", household: ""}
+    ];
+
+    // Render contacts with real data
+    function renderContacts(filter = '') {
+        const container = document.querySelector('#view-contacts .glass:last-of-type');
+        if (!container) return;
+        
+        // Filter
+        let filtered = contactsData;
+        if (filter) {
+            filtered = contactsData.filter(c => c.household === filter);
+        }
+        
+        // Group by letter
+        const byLetter = {};
+        filtered.forEach(c => {
+            if (c.name) {
+                const letter = c.name[0].toUpperCase();
+                if (!byLetter[letter]) byLetter[letter] = [];
+                byLetter[letter].push(c);
+            }
+        });
+        
+        // Sort
+        const letters = Object.keys(byLetter).sort();
+        
+        let html = '';
+        letters.forEach(letter => {
+            html += `<div class="apple-section-header">${letter}</div>`;
+            byLetter[letter].forEach(c => {
+                const initials = c.name.split(' ').map(n => n[0]).join('').slice(0,2);
+                const hue = (c.name.charCodeAt(0) * 50) % 360;
+                html += `<div class="apple-list-item">
+                    <div class="icon" style="background: hsl(${hue}, 60%, 50%);">${initials}</div>
+                    <div style="flex:1;">
+                        <div style="font-weight:500;">${c.name}</div>
+                        ${c.birthday ? `<div style="font-size:0.75rem;opacity:0.5;">🎂 ${c.birthday}</div>` : ''}
+                        ${c.address ? `<div style="font-size:0.7rem;opacity:0.4;">${c.address}</div>` : ''}
+                    </div>
+                    ${c.phone ? `<div style="color:#3B82F6;font-size:0.85rem;">📞</div>` : ''}
+                </div>`;
+            });
+        });
+        
+        container.innerHTML = html || '<div style="text-align:center;padding:2rem;opacity:0.5;">No contacts</div>';
+    }
+
+    // Add filter buttons to contacts
+    function addContactsFilter() {
+        const view = document.getElementById('view-contacts');
+        if (!view) return;
+        
+        // Check if filter buttons exist
+        if (view.querySelector('.contact-filters')) return;
+        
+        const filterHTML = `<div class="contact-filters" style="display:flex;gap:0.5rem;margin-bottom:1rem;">
+            <button onclick="renderContacts('')" style="flex:1;padding:0.5rem;border-radius:0.75rem;border:none;background:#A78BFA;color:white;font-size:0.8rem;">All</button>
+            <button onclick="renderContacts('Family')" style="flex:1;padding:0.5rem;border-radius:0.75rem;border:1px solid rgba(255,255,255,0.15);background:transparent;color:rgba(255,255,255,0.6);font-size:0.8rem;">Family</button>
+            <button onclick="renderContacts('Friends')" style="flex:1;padding:0.5rem;border-radius:0.75rem;border:1px solid rgba(255,255,255,0.15);background:transparent;color:rgba(255,255,255,0.6);font-size:0.8rem;">Friends</button>
+            <button onclick="renderContacts('Joint')" style="flex:1;padding:0.5rem;border-radius:0.75rem;border:1px solid rgba(255,255,255,0.15);background:transparent;color:rgba(255,255,255,0.6);font-size:0.8rem;">Joint</button>
+        </div>`;
+        
+        const input = view.querySelector('.apple-input');
+        if (input) {
+            input.insertAdjacentHTML('afterend', filterHTML);
+        }
+    }
+
+    // Update init
+    const remindersData = [
+        {id: 1, title: "Sean's Car MOT", due_date: "2026-05-02", cost: "~£50", category: "Vehicle"},
+        {id: 2, title: "Sean's Car Tax", due_date: "2026-04-01", cost: "£165", category: "Vehicle"},
+        {id: 3, title: "David's Car MOT", due_date: "2026-09-24", cost: "~£50", category: "Vehicle"},
+        {id: 4, title: "David's Car Tax", due_date: "2026-10-01", cost: "£165", category: "Vehicle"},
+        {id: 5, title: "Travel Pack Insurance", due_date: "", cost: "", category: "Insurance", notes: "Found in email"}
+    ];
+
+    // Render reminders with real data
+    function renderReminders() {
+        const container = document.querySelector('#view-reminders .glass');
+        if (!container) return;
+        
+        let html = '';
+        remindersData.forEach(r => {
+            const dateStr = r.due_date ? new Date(r.due_date + 'T00:00:00').toLocaleDateString('en-GB', {day: 'numeric', month: 'short', year: 'numeric'}) : '';
+            const isOverdue = r.due_date && new Date(r.due_date + 'T00:00:00') < new Date();
+            
+            html += `<div class="apple-list-item">
+                <input type="checkbox" style="width:22px;height:22px;margin-right:0.75rem;border-radius:6px;accent-color:#A78BFA;">
+                <div style="flex:1;">
+                    <div style="font-weight:500;">${r.title}</div>
+                    <div style="font-size:0.75rem;opacity:0.5;">${r.category}${dateStr ? ' · ' + dateStr : ''}${r.cost ? ' · ' + r.cost : ''}</div>
+                    ${r.notes ? `<div style="font-size:0.7rem;opacity:0.4;margin-top:0.25rem;">📝 ${r.notes}</div>` : ''}
+                </div>
+                ${isOverdue ? '<div style="color:#EF4444;font-size:0.7rem;">⚠️ Due</div>' : ''}
+            </div>`;
+        });
+        
+        container.innerHTML = html;
+    }
+
+    // Update init
+    const notesData = [
+        {id: 1, title: "Welcome to Ashton Hub! 🦞", preview: "Your shared household hub - tasks, shopping, calendar & more!", date: "Today"},
+        {id: 2, title: "Quick Contacts", preview: "Sean: 07984888450 | David: 07849 657685", date: "Updated"},
+        {id: 3, title: "Interview Day! 💪", preview: "Sean has his legal executive interview today at 2:30pm", date: "Today"}
+    ];
+
+    // Render notes with real data
+    function renderNotes() {
+        const container = document.querySelector('#view-notes > div:nth-of-type(2)');
+        if (!container) return;
+        
+        let html = '';
+        notesData.forEach(n => {
+            html += `<div class="glass" style="min-height: 80px; cursor: pointer;">
+                <div style="font-weight: 600; font-size: 0.9rem; margin-bottom: 0.25rem;">${n.title}</div>
+                <div style="font-size: 0.75rem; opacity: 0.6; line-height: 1.4;">${n.preview}</div>
+                <div style="font-size: 0.65rem; opacity: 0.4; margin-top: 0.5rem;">${n.date}</div>
+            </div>`;
+        });
+        
+        container.innerHTML = html;
+    }
+
+    // Update init
+    const teamTasksData = [
+        {id: 1, task: "Daily Memory", agent: "Clawbie", status: "ongoing", schedule: "Midnight daily", priority: "high"},
+        {id: 2, task: "File Structure Guardian", agent: "Clawbie", status: "ongoing", schedule: "Every 2 hours", priority: "medium"},
+        {id: 3, task: "Ashton Hub Development", agent: "Tiffany", status: "in_progress", schedule: "Daily", priority: "high"},
+        {id: 4, task: "M365 Token Refresh", agent: "Chucky", status: "ongoing", schedule: "Hourly", priority: "high"},
+        {id: 5, task: "M365 Token Refresh Backup", agent: "Glenda", status: "ongoing", schedule: "Hourly (backup)", priority: "medium"}
+    ];
+
+    const teamStatusData = [
+        {name: "Clawbie", emoji: "🦞", role: "Manager", status: "online"},
+        {name: "Tiffany", emoji: "💅", role: "Developer", status: "online"},
+        {name: "Chucky", emoji: "🤖", role: "Automation", status: "online"},
+        {name: "Glenda", emoji: "✨", role: "Assistant", status: "online"}
+    ];
+
+    const teamScheduleData = [
+        {agent: "Clawbie", day: "Mon-Sun", hours: "24/7", notes: "Always on"},
+        {agent: "Tiffany", day: "Mon-Fri", hours: "9AM-6PM", notes: "UK timezone"},
+        {agent: "Chucky", day: "Automated", hours: "24/7", notes: "On-demand"},
+        {agent: "Glenda", day: "Automated", hours: "24/7", notes: "On-demand"}
+    ];
+
+    // Render Team Tasks
+    function renderTeamTasks() {
+        const container = document.getElementById('team-tasks-list');
+        if (!container) return;
+        
+        let html = '';
+        teamTasksData.forEach(t => {
+            const statusColor = t.status === 'in_progress' ? '#22C55E' : t.status === 'ongoing' ? '#F59E0B' : '#6B7280';
+            html += `<div class="apple-list-item">
+                <div style="flex:1;">
+                    <div style="font-weight:500;">${t.task}</div>
+                    <div style="font-size:0.75rem;opacity:0.5;">${t.agent} · ${t.schedule}</div>
+                </div>
+                <div style="color:${statusColor};font-size:0.7rem;text-transform:uppercase;">${t.status}</div>
+            </div>`;
+        });
+        container.innerHTML = html;
+    }
+
+    // Render Team Status
+    function renderTeamStatus() {
+        const container = document.getElementById('team-status-list');
+        if (!container) return;
+        
+        let html = '';
+        teamStatusData.forEach(a => {
+            const statusDot = a.status === 'online' ? '#22C55E' : '#6B7280';
+            html += `<div class="apple-list-item">
+                <div class="icon" style="background: rgba(167,139,250,0.3);font-size:1rem;">${a.emoji}</div>
+                <div style="flex:1;">
+                    <div style="font-weight:500;">${a.name}</div>
+                    <div style="font-size:0.75rem;opacity:0.5;">${a.role}</div>
+                </div>
+                <div style="display:flex;align-items:center;gap:0.25rem;">
+                    <div style="width:8px;height:8px;background:${statusDot};border-radius:50%;"></div>
+                    <span style="font-size:0.7rem;opacity:0.6;">${a.status}</span>
+                </div>
+            </div>`;
+        });
+        container.innerHTML = html;
+    }
+
+    // Render Team Schedule
+    function renderTeamSchedule() {
+        const container = document.getElementById('team-schedule-list');
+        if (!container) return;
+        
+        let html = '';
+        teamScheduleData.forEach(s => {
+            html += `<div class="apple-list-item">
+                <div style="flex:1;">
+                    <div style="font-weight:500;">${s.agent}</div>
+                    <div style="font-size:0.75rem;opacity:0.5;">${s.notes}</div>
+                </div>
+                <div style="text-align:right;">
+                    <div style="font-weight:600;">${s.hours}</div>
+                    <div style="font-size:0.65rem;opacity:0.5;">${s.day}</div>
+                </div>
+            </div>`;
+        });
+        container.innerHTML = html;
+    }
+
+    // Add to init
+    document.addEventListener('DOMContentLoaded', function() {
+        renderCalendarEvents();
+        renderShoppingItems();
+        renderTodoItems();
+        renderFinanceItems();
+        addContactsFilter();
+        renderContacts();
+        renderReminders();
+        renderNotes();
+        renderTeamTasks();
+        renderTeamStatus();
+        renderTeamSchedule();
+    });
+</script>
+
+    <!-- Bottom Navigation Bar -->
+    <div class="bottom-nav" style="position: fixed; bottom: 0; left: 0; right: 0; display: flex; justify-content: space-around; padding: 0.75rem; background: rgba(0,0,0,0.8); backdrop-filter: blur(20px); border-top: 1px solid rgba(255,255,255,0.1); z-index: 1000;">
+        <div style="text-align: center; cursor: pointer; opacity: 0.7;" onclick="switchView('home')">
+            <div style="font-size: 1.5rem;">🏠</div>
+            <div style="font-size: 0.65rem;">Home</div>
+        </div>
+        <div style="text-align: center; cursor: pointer; opacity: 0.7;" onclick="switchView('sean-david')">
+            <div style="font-size: 1.5rem;">👥</div>
+            <div style="font-size: 0.65rem;">House</div>
+        </div>
+        <div style="text-align: center; cursor: pointer; opacity: 0.7;" onclick="switchView('team')">
+            <div style="font-size: 1.5rem;">💼</div>
+            <div style="font-size: 0.65rem;">Team</div>
+        </div>
+        <div style="text-align: center; cursor: pointer; opacity: 0.7;" onclick="switchView('profile')">
+            <div style="font-size: 1.5rem;">👤</div>
+            <div style="font-size: 0.65rem;">Profile</div>
+        </div>
+    </div>
+</body>
+</html>

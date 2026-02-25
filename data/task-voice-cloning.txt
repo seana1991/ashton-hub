@@ -1,0 +1,17 @@
+# 🎙️ Voice Cloning Research
+
+## Status: In Progress
+
+## Notes
+- Link up with Tiffany on voice cloning
+- Research: Live voice cloning on Discord possibility
+- Research: What tools needed
+
+## Tools to Explore
+- Mangio-RVC (RVC-based voice conversion)
+- Coqui TTS (XTTS-v2) - free, local
+
+## Next Steps
+- Get 5-30 min clean audio from Sean/David
+- Train voice model
+- Test cartoon voice output
