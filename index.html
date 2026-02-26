@@ -865,7 +865,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         if (!isDarkMode) {
             document.body.classList.add('light-mode');
-            document.body.style.background = 'url(background.jpg) no-repeat center center fixed';
+            document.body.style.background = 'url(data/background.jpg) no-repeat center center fixed';
             document.body.style.backgroundSize = 'cover';
             
             // Update toggle icons
@@ -892,11 +892,11 @@
         
         if (isDarkMode) {
             body.classList.remove('light-mode');
-            body.style.background = 'url(background-dark.jpg) no-repeat center center fixed';
+            body.style.background = 'url(data/background-dark.jpg) no-repeat center center fixed';
             body.style.backgroundSize = 'cover';
         } else {
             body.classList.add('light-mode');
-            body.style.background = 'url(background.jpg) no-repeat center center fixed';
+            body.style.background = 'url(data/background.jpg) no-repeat center center fixed';
             body.style.backgroundSize = 'cover';
         }
         
@@ -1438,6 +1438,25 @@
 
     // Add to init
     document.addEventListener('DOMContentLoaded', function() {
+        // Create bottom navigation
+        const navBar = document.createElement('div');
+        navBar.id = 'bottomnav';
+        navBar.innerHTML = `
+            <button class="nav-btn" onclick="switchView('sean-david')">
+                <div style="font-size:1.8rem;">👤</div>
+                <div class="label">Sean</div>
+            </button>
+            <button class="nav-btn" onclick="switchView('home')">
+                <div style="font-size:1.8rem;">🏠</div>
+                <div class="label">Home</div>
+            </button>
+            <button class="nav-btn" onclick="switchView('team')">
+                <div style="font-size:1.8rem;">💬</div>
+                <div class="label">Team</div>
+            </button>
+        `;
+        document.body.appendChild(navBar);
+        
         renderCalendarEvents();
         renderShoppingItems();
         renderTodoItems();
