@@ -1,7 +1,3 @@
-# Data - don't deploy!
-data/
-guides/
-
 # Build outputs
 node_modules/
 .vercel/
@@ -11,3 +7,6 @@ site.zip
 # Local Netlify folder
 .netlify
 .vercel
+
+# Keep data folder - NEEDED FOR APP
+# guides/ can stay ignored
