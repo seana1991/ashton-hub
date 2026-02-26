@@ -10,3 +10,4 @@ site.zip
 
 # Local Netlify folder
 .netlify
+.vercel

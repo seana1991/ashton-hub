@@ -113,7 +113,7 @@
             <div style="padding-top: 3rem; text-align: center; margin-bottom: 1rem; position: relative;">
                 <div style="position: absolute; top: 0.5rem; left: 0; cursor: pointer;" onclick="toggleTheme()"><div class="theme-toggle"><span class="active">🌙</span><span>☀️</span></div></div>
                 <div style="position: absolute; top: 0.5rem; right: 0; width: 44px; height: 44px; background: rgba(255,255,255,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer;" onclick="switchView('profile')">👤</div>
-                <h1 style="font-size: 2.5rem; margin: 1rem 0 0.5rem;">Hey Clawbie</h1>
+                <h1 style="font-size: 2.5rem; margin: 1rem 0 0.5rem;">Hey Sean</h1>
                 <p id="current-date" style="opacity: 0.6;"></p>
                 <div style="display: inline-flex; gap: 0.5rem; margin-top: 0.5rem; background: rgba(255,255,255,0.1); padding: 0.5rem 1rem; border-radius: 20px; cursor:pointer;" onclick="switchView('weather')"><span>☀️</span><span>12°C</span><span style="opacity: 1; color: #fff;">Watton</span></div>
             </div>
@@ -921,6 +921,9 @@
                 span.textContent = isDarkMode ? '🌙' : '☀️';
             }
         });
+        
+        // Load app data from JSON files
+        loadAppData();
     }
     
     function switchView(viewName) {
@@ -952,22 +955,58 @@
             document.getElementById('team-chat-box').scrollTop = document.getElementById('team-chat-box').scrollHeight;
         }
     }
-        // REAL DATA FROM master_database
-    const calendarEvents = [
-        {id: 1, title: "Sean's Interview - Legal Executive", start_datetime: "2026-02-25T14:30:00", end_datetime: "2026-02-25T15:30:00", color: "blue"},
-        {id: 2, title: "Scream 7 🎬", start_datetime: "2026-02-27T20:30:00", end_datetime: "2026-02-27T22:00:00", color: "red"},
-        {id: 3, title: "Sean's Stop Smoking Call", start_datetime: "2026-03-02T11:30:00", end_datetime: "2026-03-02T12:00:00", color: "green"},
-        {id: 4, title: "David's Car MOT (EJ64 EVG)", start_datetime: "2026-09-17T08:00:00", end_datetime: "2026-09-17T09:00:00", color: "orange"},
-        {id: 5, title: "David's Car Road Tax (EJ64 EVG)", start_datetime: "2026-09-24T08:00:00", end_datetime: "2026-09-24T08:30:00", color: "orange"}
-    ];
-    const calendarEvents = [
-        {id: 1, title: "Sean's Interview - Legal Executive", start_datetime: "2026-02-25T14:30:00", end_datetime: "2026-02-25T15:30:00", color: "blue"},
-        {id: 2, title: "Scream 7 🎬", start_datetime: "2026-02-27T20:30:00", end_datetime: "2026-02-27T22:00:00", color: "red"},
-        {id: 3, title: "Sean's Stop Smoking Call", start_datetime: "2026-03-02T11:30:00", end_datetime: "2026-03-02T12:00:00", color: "green"},
-        {id: 4, title: "David's Car MOT (EJ64 EVG)", start_datetime: "2026-09-17T08:00:00", end_datetime: "2026-09-17T09:00:00", color: "orange"},
-        {id: 5, title: "David's Car Road Tax (EJ64 EVG)", start_datetime: "2026-09-24T08:00:00", end_datetime: "2026-09-24T08:30:00", color: "orange"}
-    ];
-    const calendarEvents = [
+    
+    // ============================================
+    // DATA LOADING - Load from JSON files (Apple HIG Compliant)
+    // ============================================
+    
+    let appData = {
+        calendar: [],
+        shopping: [],
+        tasks: [],
+        contacts: [],
+        finance: {},
+        reminders: [],
+        notes: []
+    };
+    
+    async function loadAppData() {
+        try {
+            const [calRes, shopRes, taskRes, contactRes, financeRes, remindRes, notesRes] = await Promise.all([
+                fetch('data/calendar.json'),
+                fetch('data/shopping.json'),
+                fetch('data/tasks.json'),
+                fetch('data/contacts.json'),
+                fetch('data/finance.json'),
+                fetch('data/reminders.json'),
+                fetch('data/notes.json')
+            ]);
+            
+            appData.calendar = (await calRes.json()).events || [];
+            appData.shopping = (await shopRes.json()).items || [];
+            appData.tasks = (await taskRes.json()).tasks || [];
+            appData.contacts = (await contactRes.json()).contacts || [];
+            appData.finance = await financeRes.json();
+            appData.reminders = (await remindRes.json()).reminders || [];
+            appData.notes = (await notesRes.json()).notes || [];
+            
+            console.log('App data loaded from JSON');
+            renderCalendarEvents();
+            renderShoppingItems();
+            renderTodoItems();
+            renderContacts();
+            renderFinanceItems();
+            renderReminders();
+            renderNotes();
+        } catch(err) {
+            console.error('JSON load failed, using fallback:', err);
+            loadFallbackData();
+        }
+    }
+    
+    function loadFallbackData() {
+        // Hardcoded fallback data - load into appData
+        appData.calendar = [
         {id: 1, title: "Sean's Interview - Legal Executive", start_datetime: "2026-02-25T14:30:00", end_datetime: "2026-02-25T15:30:00", color: "blue"},
         {id: 2, title: "Scream 7 🎬", start_datetime: "2026-02-27T20:30:00", end_datetime: "2026-02-27T22:00:00", color: "red"},
         {id: 3, title: "Sean's Stop Smoking Call", start_datetime: "2026-03-02T11:30:00", end_datetime: "2026-03-02T12:00:00", color: "green"},
@@ -1064,7 +1103,7 @@
         
         // Group events by date
         const eventsByDate = {};
-        calendarEvents.forEach(event => {
+        appData.calendar.forEach(event => {
             const date = event.start_datetime.split('T')[0];
             if (!eventsByDate[date]) eventsByDate[date] = [];
             eventsByDate[date].push(event);
@@ -1098,7 +1137,7 @@
         if (!container) return;
         
         let html = '';
-        shoppingItems.forEach(item => {
+        appData.shopping.forEach(item => {
             const checked = item.completed ? 'checked' : '';
             html += `<div class="apple-list-item">
                 <input type="checkbox" ${checked} style="width:20px;height:20px;margin-right:0.75rem;border-radius:50%;" onchange="toggleShoppingItem(${item.id})">
@@ -1116,7 +1155,7 @@
         if (!container) return;
         
         let html = '';
-        todoTasks.forEach(task => {
+        appData.tasks.forEach(task => {
             const checked = task.status === 'completed' ? 'checked' : '';
             const statusLabel = task.status === 'ongoing' ? 'Ongoing' : task.status === 'recurring' ? 'Recurring' : 'Pending';
             html += `<div class="apple-list-item">
@@ -1130,8 +1169,8 @@
 
     // Render finance with real data
     function renderFinanceItems() {
-        const income = financeData.income.reduce((sum, i) => sum + i.amount, 0);
-        const expenses = financeData.expenses.reduce((sum, e) => sum + e.amount, 0);
+        const income = appData.finance.income ? appData.finance.income.reduce((sum, i) => sum + i.amount, 0) : 0;
+        const expenses = appData.finance.expenses ? appData.finance.expenses.reduce((sum, e) => sum + e.amount, 0) : 0;
         
         document.getElementById('finance-income').textContent = '£' + income.toLocaleString('en-GB', {minimumFractionDigits: 2});
         document.getElementById('finance-outgoing').textContent = '£' + expenses.toLocaleString('en-GB', {minimumFractionDigits: 2});
@@ -1142,7 +1181,7 @@
         if (!container) return;
         
         let html = '';
-        financeData.expenses.slice(0, 8).forEach(exp => {
+        (appData.finance.expenses || []).slice(0, 8).forEach(exp => {
             html += `<div class="apple-list-item">
                 <div style="flex:1;"><div style="font-weight:500;">${exp.desc}</div><div style="font-size:0.75rem;opacity:0.5;">${exp.category}</div></div>
                 <div style="color:#EF4444;font-weight:600;">£${exp.amount.toFixed(2)}</div>
@@ -1194,9 +1233,9 @@
         if (!container) return;
         
         // Filter
-        let filtered = contactsData;
+        let filtered = appData.contacts;
         if (filter) {
-            filtered = contactsData.filter(c => c.household === filter);
+            filtered = appData.contacts.filter(c => c.household === filter);
         }
         
         // Group by letter
@@ -1269,7 +1308,7 @@
         if (!container) return;
         
         let html = '';
-        remindersData.forEach(r => {
+        appData.reminders.forEach(r => {
             const dateStr = r.due_date ? new Date(r.due_date + 'T00:00:00').toLocaleDateString('en-GB', {day: 'numeric', month: 'short', year: 'numeric'}) : '';
             const isOverdue = r.due_date && new Date(r.due_date + 'T00:00:00') < new Date();
             
@@ -1300,7 +1339,7 @@
         if (!container) return;
         
         let html = '';
-        notesData.forEach(n => {
+        appData.notes.forEach(n => {
             html += `<div class="glass" style="min-height: 80px; cursor: pointer;">
                 <div style="font-weight: 600; font-size: 0.9rem; margin-bottom: 0.25rem;">${n.title}</div>
                 <div style="font-size: 0.75rem; opacity: 0.6; line-height: 1.4;">${n.preview}</div>
