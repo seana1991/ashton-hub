@@ -42,7 +42,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
     font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; 
-    background: url(background-dark.jpg) no-repeat center center fixed; 
+    background: url(data/background-dark.jpg) no-repeat center center fixed; 
     background-size: cover; 
     color: #fff; 
     min-height: 100vh; 
@@ -831,7 +831,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         if (!isDarkMode) {
             document.body.classList.add('light-mode');
-            document.body.style.background = 'url(background.jpg) no-repeat center center fixed';
+            document.body.style.background = 'url(data/background.jpg) no-repeat center center fixed';
             document.body.style.backgroundSize = 'cover';
             
             // Update toggle icons
@@ -858,11 +858,11 @@
         
         if (isDarkMode) {
             body.classList.remove('light-mode');
-            body.style.background = 'url(background-dark.jpg) no-repeat center center fixed';
+            body.style.background = 'url(data/background-dark.jpg) no-repeat center center fixed';
             body.style.backgroundSize = 'cover';
         } else {
             body.classList.add('light-mode');
-            body.style.background = 'url(background.jpg) no-repeat center center fixed';
+            body.style.background = 'url(data/background.jpg) no-repeat center center fixed';
             body.style.backgroundSize = 'cover';
         }
         
