@@ -1,4 +1,4 @@
 #!/bin/bash
+# Deploy to Vercel directly (bypasses GitHub)
 cd "$(dirname "$0")"
-export NETLIFY_TOKEN="nfp_GDSFfk3iVKSQGkwE29A2dNFUfdkSU9ip02c2"
-netlify deploy --prod
+npx vercel --prod --yes

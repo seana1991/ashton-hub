@@ -8,5 +8,7 @@ site.zip
 .netlify
 .vercel
 
-# Keep data folder - NEEDED FOR APP
-# guides/ can stay ignored
+# Data folder - NOT pushed to GitHub
+# Deployed separately via Vercel CLI
+data/
+guides/
